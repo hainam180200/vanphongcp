@@ -1,0 +1,143 @@
+.body-content {}
+.body-content h1,
+.body-content .header {text-align:center;}
+
+body.account {overflow:hidden;}
+body.account header {position:fixed; z-index:99;}
+body.account {height:100%; display:flex; flex-direction:column;}
+body.account .social {position:absolute; right:20px;}
+body.account section .container {min-width:initial; max-width:initial; width:inherit;}
+body.account .top-navigation .container {padding-right:100px; min-width:initial; max-width:initial; width:inherit;}
+
+section.account {height:100%; flex-basis:100%; display:flex;}
+section.account .sidebar {width:300px; min-width:300px; height:100%;  flex-grow:1; overflow-y:auto; padding-right:3px;}
+section.account .sidebar .ctn { min-height:680px; height:100%; position:relative;background:#fff; }
+section.account .sidebar::-webkit-scrollbar {width: 3px;background-color: #F5F5F5;border-radius: 3px;}
+section.account .sidebar::-webkit-scrollbar-thumb {background-color: #f1f1f1 ;}
+section.account .sidebar::-webkit-scrollbar-track {-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);background-color: #999;}
+
+section.account .sidebar .header {padding:60px 30px 30px 30px;}
+section.account .sidebar .header .logo {padding-bottom:30px;}
+section.account .sidebar .header .logo img {max-width:100%;}
+section.account .sidebar .header .info {display:flex;}
+section.account .sidebar .header .info .avt {width:60px; height:60px; margin-right:10px; border:1px solid #ccc; border-radius:20px;}
+section.account .sidebar .header .info .avt strong {font-size: 40px;text-align: center;height: 60px;width: 60px;display: block;background: #009981;border-radius: 12px;color: #fff;}
+section.account .sidebar .header .info .avt img {border-radius:20px;}
+section.account .sidebar .header .info .summer {padding: 10px 0;}
+section.account .sidebar .header .info p {margin:0 0 3px 0; padding:0}
+section.account .sidebar .header .info p strong {font-size:16px;}
+section.account .sidebar .header .info p.logout a {color:#000;}
+section.account .sidebar .header .info p.logout a:hover {color:var(--main-color);}
+section.account .sidebar .header .info p.change-avatar a {color:#999;}
+section.account .sidebar .header .info p.change-avatar a:hover {color:#111;}
+
+
+section.account .sidebar nav {}
+section.account .sidebar nav ul {list-style:none; padding:0; margin:0}
+section.account .sidebar nav ul li a {display:flex; padding:12px 0 12px 30px;  font-size:15px; color: gray;}
+section.account .sidebar nav ul li a i {margin-right:30px; font-size:25px; display:block;}
+section.account .sidebar nav ul li a span {height:22px; margin-top:5px; display:block; padding-right:30px;  border-right:5px solid #fff; flex-basis:100%; font-weight:600;}
+
+section.account .sidebar nav ul li a:hover,
+section.account .sidebar nav ul li a.actived {color: #191919;}
+section.account .sidebar nav ul li a:hover i,
+section.account .sidebar nav ul li a.actived i{color:#009981;}
+section.account .sidebar nav ul li a:hover span,
+section.account .sidebar nav ul li a.actived span { border-color:var(--main-color);}
+
+section.account .sidebar .hotline {position:absolute; bottom:20px; text-align:center; display:flex; flex-direction:column; width:100%;}
+section.account .sidebar .hotline div {padding:0 50px;}
+section.account .sidebar .hotline strong {margin-bottom:4px; display:block; font-size:14px;}
+section.account .sidebar .hotline a { font-size:15px; color:#fff; display:flex; padding:8px; background: transparent linear-gradient(88deg, var(--main-color) 0%, var(--main-color) 100%) 0% 0% no-repeat padding-box; box-shadow: 0px 4px 6px #00000029; border-radius: 20px;}
+section.account .sidebar .hotline a i {padding:3px 0 0 3px; font-size:18px;}
+section.account .sidebar .hotline a strong {display:block; padding:3px 40px 0 20px;}
+
+
+
+section.account .body-content {padding:50px 100px 10px 10px; flex-basis:100%;  overflow-y: auto;}
+section.account .body-content::-webkit-scrollbar {width: 3px;background-color: #F5F5F5;border-radius: 3px;}
+section.account .body-content::-webkit-scrollbar-thumb {background-color: #004B3F ;}
+section.account .body-content::-webkit-scrollbar-track {-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);background-color: #F5F5F5;}
+
+section.account .body-content h1 {margin-bottom:30px;}
+section.account .body-content h2 {color: #47637D; font-size:20px;}
+section.account .body-content .header  {position:relative;}
+section.account .body-content .header .bg {background: #DCEDFD 0% 0% no-repeat padding-box; border-radius: 12px;  height: 190px; display:flex; flex-direction:column; justify-content:center;}
+section.account .body-content .header .bg .text {padding-left:80px; font-size:15px;}
+section.account .body-content .header .icon {position:absolute; bottom:-2px; right:100px;}
+
+
+.account-layout {}
+.account-layout h3 {font-size:16px; padding-left:10px;}
+.account-layout .row {margin-top:10px;}
+.account-layout .row .col {flex-basis:100%; margin-right:10px;}
+.account-layout .row .col:last-child {margin-right:0}
+.account-layout .row .col-lg {flex-grow:3;}
+.account-layout .row .col-sm {flex-basis:30%;}
+
+.account-layout .box-bg-white {background: #FFFFFF 0% 0% no-repeat padding-box; box-shadow: 0px 4px 6px #00000029;position:relative; padding:10px 0;}
+
+.box-bg-white .tools {position:absolute; top:10px; right:10px; font-size:18px;}
+.box-bg-white .tools a {color: gray; }
+.box-bg-white .tools a:hover {color:#000;}
+.box-bg-white .account-info {}
+.box-bg-white .account-info p {margin:0; padding:10px 20px; display:flex;}
+.box-bg-white .account-info p strong {margin-right:20px;}
+.box-bg-white .account-info p i {color: gray; font-weight:bold;}
+
+.user-sticker {}
+.user-sticker {height:100%; display:flex; flex-direction:column; justify-content:center; justify-items:center; text-align:center;}
+.user-sticker .avt {width:100px; border-radius:20px; border:1px solid #ccc; margin:auto;}
+.user-sticker .avt img {width:100%; border-radius:18px; margin-bottom:-3px;}
+
+.user-sticker p strong {color:red;}
+.user-sticker p strong.text-gray {color:#666;}
+.user-sticker p.role {color: var(--main-color) }
+.user-sticker p i.icon-star {color: #FFDC64;}
+
+.user-acc-links {padding:10px; margin-top:20px; border-top:1px solid #eee;}
+.user-acc-links .acc {margin:15px 0 30px 0;}
+.user-acc-links .acc p {padding:0; margin:0 0 10px 0;}
+.user-acc-links .acc button {background: transparent linear-gradient(88deg, var(--main-color) 0%, var(--main-color) 100%) 0% 0% no-repeat padding-box; color:#fff; padding:8px 15px; border:none; border-radius:5px;}
+.user-acc-links .acc button:hover,
+.user-acc-links .acc button.remove:hover{background: #009981}
+
+.user-acc-links .acc button.remove {background: transparent linear-gradient(0deg, #bf1e2d 0%, #fd475a 100%) 0% 0% no-repeat padding-box;}
+.user-acc-links .acc p {display:flex; align-content:center; align-items:center; text-align:center;justify-content: center;}
+.user-acc-links .acc p strong,
+.user-acc-links .acc p span {line-height:38px; font-size:20px; height:38px; display:block;}
+.user-acc-links .acc p img {margin-right:10px;}
+
+.body-content h1, .body-content .header .icon img {max-width:100%;}
+
+
+.payment-opt {border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 10px 10px 5px 10px;
+    display: flex;
+    align-items: stretch;
+    justify-content: stretch; margin-right:-20px;}
+
+.payment-opt label span {display:block; line-height:20px; font-size:13px;}
+.payment-selected {color:var(--main-color); border-color:var(--main-color);}
+
+@media only screen and (max-width: 1024px){
+    section.account .body-content {
+        padding: 0;
+
+    }
+    section.account .body-content .header .bg .text {
+        padding-left: 0;
+    }
+    section.account .body-content .header .icon {
+        position: relative;
+        bottom: 0;
+        right: 0;
+    }
+}
+section.account .sidebar nav ul li a.active{
+    color: var(--main-color);
+}
+.sidebar li a.active span{
+    border-color: var(--main-color);
+}

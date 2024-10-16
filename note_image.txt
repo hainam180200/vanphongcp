@@ -1,0 +1,30 @@
+{{--image--}}
+					<div class="form-group m-form__group {{ $errors->has('image')? 'has-danger':'' }}">
+                        <label for="target" class="form-control-label">{{ __('Ảnh đại diện:') }}</label><br>
+						<div class="fileinput  {{ old('image', isset($data) ? $data->image : null)!=""?"fileinput-exists":"fileinput-new" }}  " data-provides="fileinput">
+							<div class="fileinput-new thumbnail" style="width: 150px; height: 150px;">
+								<img src="/assets/backend/images/empty-photo.jpg" data-src="/assets/backend/images/empty-photo.jpg" alt="">
+							</div>
+							<div class="fileinput-preview fileinput-exists thumbnail" style="width: 150px; height: 150px;">
+								@if(old('image', isset($data) ? $data->image : null)!="")
+									<img src="{{ old('image', isset($data) ? \App\Library\MediaHelpers::media($data->image) : null) }}">
+									<input type="hidden" name="image_oldest" value="1">
+								@endif
+							</div>
+							<div>
+									<span class="btn btn-default btn-file">
+										<span class="fileinput-new">Chọn ảnh đại diện</span>
+										<span class="fileinput-exists">Đổi ảnh đại diện</span>
+											<input type="file" name="image">
+									</span>
+								<a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Xóa</a>
+							</div>
+						</div>
+						@if($errors->has('image'))
+							<div class="form-control-feedback">{{ $errors->first('image') }}</div>
+						@endif
+					</div>
+
+					if(!$request->filled('image_oldest')){
+            $input['image']= Files::upload_image($request->file('image','images',null,null,null,false));
+        }

@@ -46,6 +46,6 @@ class Group_Item extends BaseModel
     }
     public function item()
     {
-        return $this->belongsTo(Item::class,'item_id','id')->select('id','title','image','order','url','slug','price','price_old','price_input','percent_sale','status','url_type','target','totalviews','description','content','promotion');
+        return $this->belongsTo(Item::class,'item_id','id')->select('id','title','image','order','url','slug','price','price_old','price_input','percent_sale','status','url_type','target','totalviews','description','content','promotion','updated_at');
     }
 }

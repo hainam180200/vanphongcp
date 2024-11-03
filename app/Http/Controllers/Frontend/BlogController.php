@@ -123,7 +123,7 @@ class BlogController extends Controller
         ->orderBy('id','desc')
         ->limit(6)
         ->get();
-            return view('frontend.pages.news_category')
+            return view('frontend.pages.article.list')
                 ->with('breadcumb',$breadcumb)
                 ->with('currentCategory',$currentCategory)
                 ->with('data_new',$data_new)
@@ -151,7 +151,7 @@ class BlogController extends Controller
         ->orderBy('id','desc')
         ->limit(10)
         ->get();
-        return view('frontend.pages.news_detail')
+        return view('frontend.pages.article.detail')
         ->with('data_new',$data_new)
         ->with('data_involve',$data_involve)
         ->with('data',$data);

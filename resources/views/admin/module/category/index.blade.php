@@ -1,7 +1,6 @@
 {{-- Extends layout --}}
 @extends('admin._layouts.master')
 
-
 @section('action_area')
     <div class="d-flex align-items-center text-right">
         <div class="btn-group">
@@ -23,7 +22,6 @@
 
 {{-- Content --}}
 @section('content')
-
     <div class="card card-custom card-sticky" id="kt_page_sticky_card">
         <div class="card-header">
             <div class="card-title">
@@ -33,9 +31,7 @@
             </div>
             <div class="card-toolbar"></div>
         </div>
-
         <div class="card-body">
-
             <div class="row">
                 <div class="col-sm-8">
                     <div class="well">
@@ -54,7 +50,6 @@
                             <p class="success-indicator" style="display:none; margin-right: 15px;float: left;color: #34bfa3;font-size: 14px">
                                 <span class="glyphicon glyphicon-ok"></span>   {{__('Danh mục đã được cập nhật !')}}
                             </p>
-
                         </div>
                         <div class="" style="clear: both"></div>
                         <div class="dd" id="nestable">
@@ -75,8 +70,6 @@
         </div>
     </div>
 
-
-
     <!-- loadModal create_edit  Modal -->
     <div class="modal fade" id="loadModal" tabindex="-1" role="dialog" style="display: none;" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
@@ -84,6 +77,7 @@
             </div>
         </div>
     </div>
+
     <!-- delete item Modal -->
     <div class="modal fade" id="deleteModal">
         <div class="modal-dialog">
@@ -107,9 +101,6 @@
             </div>
         </div>
     </div>
-
-
-
 @endsection
 
 {{-- Styles Section --}}
@@ -118,15 +109,10 @@
 @endsection
 {{-- Scripts Section --}}
 @section('scripts')
-
     <script>
-
-
-
         //edit button
         $('.loadModal_toggle,.edit_toggle').each(function (index, elem) {
             $(elem).click(function (e) {
-
                 e.preventDefault();
                 $('#loadModal .modal-content').empty();
                 $('#loadModal .modal-content').load($(this).data("url"),function(){
@@ -139,12 +125,12 @@
         //delete button
         $('.delete_toggle').each(function (index, elem) {
             $(elem).click(function (e) {
-
                 e.preventDefault();
                 $('#deleteModal .id').attr('value', $(elem).attr('rel'));
                 $('#deleteModal').modal('toggle');
             });
         });
+
         //delete button all
         $('.delete_selected').click(function (e) {
             e.preventDefault();
@@ -165,7 +151,6 @@
             else{
                 alert('{{__('Vui lòng chọn dữ liệu cần xóa')}}');
             }
-
         });
         //end delete button all
 
@@ -185,10 +170,7 @@
                 $(this).attr('data-action',1);
                 $(".nested-list-content  .m-checkbox input[type='checkbox']").prop('checked', true).change();
             }
-
         });
-
-
 
         //nestable
         $(function () {
@@ -228,16 +210,12 @@
                         });
                 }
             });
-
-
         });
         //nestable action
         $('#nestable-menu-action').on('click', function(e)
         {
             action =$(this).attr('data-action');
             if (action === 'expand-all') {
-
-
                 $(this).text('Thu gọn');
                 $(this).attr('data-action','collapse-all');
                 //thực hiện thao tác expand-all
@@ -249,26 +227,18 @@
                 //thực hiện thao tác collapse-all
                 $('.dd').nestable('collapseAll');
             }
-
         });
         //end nestable action
 
         $("#nestable input[type='checkbox']").change(function () {
-
             //click children
             $(this).closest('.dd-item').find("input[type='checkbox']").prop('checked', this.checked);
             var is_checked = $(this).is(':checked');
-
-
             $("#nestable input[type='checkbox']").each(function (index, elem) {
-
                 if ($(elem).is(':checked')) {
                     return false;
                 }
             });
         });
-
     </script>
-
-
 @endsection

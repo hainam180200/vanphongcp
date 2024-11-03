@@ -19,17 +19,13 @@ class ItemController extends Controller
     protected $moduleCategory;
     public function __construct(Request $request)
     {
-
-
         $this->module="product";
         $this->moduleCategory='product-category';
-
         //set permission to function
         $this->middleware('permission:'. $this->module.'-list');
         $this->middleware('permission:'. $this->module.'-create', ['only' => ['create', 'store','duplicate']]);
         $this->middleware('permission:'. $this->module.'-edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:'. $this->module.'-delete', ['only' => ['destroy']]);
-
 
         if( $this->module!=""){
             $this->page_breadcrumbs[] = [
@@ -38,7 +34,6 @@ class ItemController extends Controller
             ];
         }
     }
-
 
     public function index(Request $request)
     {
@@ -50,7 +45,6 @@ class ItemController extends Controller
                 $query->select('groups.id','title');
             }))->where('module', $this->module);
 
-
             if ($request->filled('group_id')) {
                 if($request->get('group_id') != null){
                     $datatable->whereHas('groups', function ($query) use ($request) {
@@ -58,15 +52,12 @@ class ItemController extends Controller
                     });
                 }
             }
-
             if ($request->filled('id'))  {
                 $datatable->where(function($q) use($request){
                     $q->orWhere('id', $request->get('id'));
                     $q->orWhere('idkey',$request->get('id') );
                 });
             }
-
-
             if ($request->filled('title'))  {
                 $datatable->where(function($q) use($request){
                     $q->orWhere('title', 'LIKE', '%' . $request->get('title') . '%');
@@ -75,18 +66,15 @@ class ItemController extends Controller
             if ($request->filled('position')) {
                 $datatable->where('position',$request->get('position') );
             }
-
             if ($request->filled('status')) {
                 $datatable->where('status',$request->get('status') );
             }
-
             if ($request->filled('started_at')) {
                 $datatable->where('created_at', '>=', Carbon::createFromFormat('d/m/Y H:i:s', $request->get('started_at')));
             }
             if ($request->filled('ended_at')) {
                 $datatable->where('created_at', '<=', Carbon::createFromFormat('d/m/Y H:i:s', $request->get('ended_at')));
             }
-
             return \datatables()->eloquent($datatable)
 
                 ->only([
@@ -103,13 +91,8 @@ class ItemController extends Controller
                     'action',
                     'created_at',
                 ])
-
-
                 ->editColumn('created_at', function($data) {
                     return date('d/m/Y H:i:s', strtotime($data->created_at));
-                })
-                ->editColumn('price', function($data) {
-                    return number_format($data->price). ' đ';
                 })
                 ->editColumn('image', function($data) {
                     return Files::media($data->image);
@@ -129,26 +112,18 @@ class ItemController extends Controller
             ->with('dataCategory', $dataCategory);
     }
 
-
     public function create(Request $request)
     {
         $this->page_breadcrumbs[] =[
             'page' => '#',
             'title' => __("Thêm mới")
         ];
-
         $dataCategory = Group::where('module', '=', $this->moduleCategory)->orderBy('order','asc')->get();
-         // lấy các thuộc tính 
-
-        $attribute = Item::where('module','=','product-attribute')->where('status',1)->get();
-
         ActivityLog::add($request, 'Vào form create '.$this->module);
         return view('admin.product.item.create_edit')
             ->with('module', $this->module)
             ->with('page_breadcrumbs', $this->page_breadcrumbs)
-            ->with('attribute', $attribute)
             ->with('dataCategory', $dataCategory);
-
     }
 
 
@@ -160,62 +135,27 @@ class ItemController extends Controller
             'title.required' => __('Vui lòng nhập tiêu đề'),
         ]);
         $input=$request->all();
-        $image_extension = null;
         $input['module']=$this->module;
+
         if(!$request->filled('image_oldest')){
             $input['image']= Files::upload_image($request->file('image'),'images',null,null,null,false);
         }
-        if(!$request->filled('image_icon_oldest')){
-            $input['image_icon']= Files::upload_image($request->file('image_icon'),'images',null,null,null,false);
-        }
-        if(!$request->filled('image_banner_oldest')){
-            $input['image_banner']= Files::upload_image($request->file('image_banner'),'images',null,null,null,false);
-        }
-        if($request->image_extension){
-            foreach($request->image_extension as $item){
-               $image_extension[] = Files::upload_image($item,'images',null,null,null,false);
-            }
-            $input['image_extension'] = json_encode($image_extension,JSON_UNESCAPED_UNICODE);
-        }
-        if(isset($input['promotion'] ) &&  $input['promotion'] != ""){
-            $input['promotion'] = json_encode($input['promotion'],JSON_UNESCAPED_UNICODE);
-        }
-        else{
-            $input['promotion'] = null;
-        }
-        $input['author_id']=auth()->user()->id;
-        $input['price_old'] = (float)str_replace(array(' ', '.'), '', $request->price_old);
-        $input['price'] = (float)str_replace(array(' ', '.'), '', $request->price);
-        $input['percent_sale'] = (float)str_replace(array(' ', '.'), '', $request->percent_sale);
 
-
+        if(!$request->filled('pdf')){
+            $input['pdf_file']= Files::upload_pdf($request->file('pdf'),'pdf',null,null,null,false);
+        }
+        $input['author_id'] = auth()->user()->id;
         //xử lý params
         if($request->filled('params')){
             $params=$request->params;
             $input['params'] =$params;
         }
-        $data=Item::create($input);
-
+        $data = Item::create($input);
         //set category
         if( isset($input['group_id'] ) &&  $input['group_id']!=0){
             $data->groups()->attach($input['group_id']);
         }
-        if(isset($input['attribute']) && $input['attribute'] != null){
-            foreach($input['attribute'] as $key => $attribute){
-                foreach($input['attribute'][$key] as $sub_key => $sub_attribute){
-                    if($sub_attribute != null && $sub_attribute != ""){
-                        SubItem::create([
-                            'item_id' => $data->id,
-                            'attribute_id' => $key,
-                            'module' => 'product_attribute',
-                            'content' => $sub_attribute,
-                        ]);
-                    }
-                }
-            }
-        }
         ActivityLog::add($request, 'Tạo mới thành công '.$this->module.' #'.$data->id);
-
         if($request->filled('submit-close')){
             return redirect()->route('admin.'.$this->module.'.index')->with('success',__('Thêm mới thành công !'));
         }
@@ -227,84 +167,49 @@ class ItemController extends Controller
 
     public function show(Request $request,$id)
     {
-        //$data = Group::findOrFail($id);
-        //ActivityLog::add($request, 'Show '.$this->module.' #'.$data->id);
-        //return view('admin.module.item.show', compact('datatable'));
+
     }
 
     public function edit(Request $request,$id)
     {
-
-
         $this->page_breadcrumbs[] =[
             'page' => '#',
             'title' => __("Cập nhật")
         ];
+        // Lấy thông tin item
         $data = Item::where('module', '=', $this->module)->findOrFail($id);
+        // Lấy thông tin danh mục
         $dataCategory = Group::where(function ($query) use ($request){
             $query->where('module', '=', $this->moduleCategory);
         })
         ->orderBy('order','asc')->get();
-        $attribute = Item::where('module','=','product-attribute')->where('status',1)->get();
-        $data_attribute = SubItem::where('item_id',$data->id)->get();
-        $list_attribute_item = [];
-        foreach($attribute as $key => $item){
-            foreach($data_attribute as $key_attribute => $item_data_attribute){
-                if($item->id == $item_data_attribute->attribute_id){
-                    $list_attribute_item[$item->id][]= $item_data_attribute->content;
-                }
-            }
-        }
-        $promotion = null;
-        if(isset($data->promotion) && $data->promotion != ''){
-            $promotion = json_decode($data->promotion);
-        }
         ActivityLog::add($request, 'Vào form edit '.$this->module.' #'.$data->id);
         return view('admin.product.item.create_edit')
             ->with('module', $this->module)
             ->with('page_breadcrumbs', $this->page_breadcrumbs)
             ->with('data', $data)
-            ->with('promotion', $promotion)
-            ->with('attribute', $attribute)
-            ->with('data_attribute', $data_attribute)
-            ->with('list_attribute_item', $list_attribute_item)
             ->with('dataCategory', $dataCategory);
 
     }
 
     public function update(Request $request,$id)
     {
-
+        // Lấy thông tin item
         $data =  Item::where('module', '=', $this->module)->findOrFail($id);
-
         $this->validate($request,[
             'title'=>'required',
         ],[
             'title.required' => __('Vui lòng nhập tiêu đề'),
         ]);
+        $input = $request->all();
+        $input['module'] = $this->module;
 
-        $input=$request->all();
-        $input['module']=$this->module;
         if(!$request->filled('image_oldest')){
             $input['image']= Files::upload_image($request->file('image'),'images',null,null,null,false);
         }
-        if(!$request->filled('image_icon_oldest')){
-            $input['image_icon']= Files::upload_image($request->file('image_icon'),'images',null,null,null,false);
-        }
-        if(!$request->filled('image_banner_oldest')){
-            $input['image_banner']= Files::upload_image($request->file('image_banner'),'images',null,null,null,false);
-        }
-        if($request->image_extension){
-            foreach($request->image_extension as $item){
-               $image_extension[] = Files::upload_image($item,'images',null,null,null,false);
-            }
-            $input['image_extension'] = json_encode($image_extension,JSON_UNESCAPED_UNICODE);
-        }
-        if(isset($input['promotion'] ) &&  $input['promotion'] != ""){
-            $input['promotion'] = json_encode($input['promotion'],JSON_UNESCAPED_UNICODE);
-        }
-        else{
-            $input['promotion'] = null;
+
+        if(!$request->filled('pdf')){
+            $input['pdf_file']= Files::upload_pdf($request->file('pdf'),'pdf',null,null,null,false);
         }
 
         //xử lý params
@@ -312,34 +217,15 @@ class ItemController extends Controller
             $params=$request->params;
             $input['params'] =$params;
         }
-        $input['price_old'] = (float)str_replace(array(' ', '.'), '', $request->price_old);
-        $input['price'] = (float)str_replace(array(' ', '.'), '', $request->price);
-        $input['percent_sale'] = (float)str_replace(array(' ', '.'), '', $request->percent_sale);
-
+        // Cập nhật thông tin
         $data->update($input);
-        //set category
 
+        //set category
         if( isset($input['group_id'] ) &&  $input['group_id']!=0){
             $data->groups()->sync($input['group_id']);
         }
         else{
             $data->groups()->sync([]);
-        }
-         // set attribute
-         if(isset($input['attribute']) && $input['attribute'] != null){
-            SubItem::where('item_id',$data->id)->delete();
-            foreach($input['attribute'] as $key => $attribute){
-                foreach($input['attribute'][$key] as $sub_key => $sub_attribute){
-                    if($sub_attribute != null && $sub_attribute != ""){
-                        SubItem::create([
-                            'item_id' => $data->id,
-                            'attribute_id' => $key,
-                            'module' => 'product_attribute',
-                            'content' => $sub_attribute,
-                        ]);
-                    }
-                }
-            }
         }
         ActivityLog::add($request, 'Cập nhật thành công '.$this->module.' #'.$data->id);
         if($request->filled('submit-close')){
@@ -352,8 +238,7 @@ class ItemController extends Controller
 
     public function destroy(Request $request)
     {
-        $input=explode(',',$request->id);
-
+        $input = explode(',',$request->id);
         Item::where('module','=',$this->module)->whereIn('id',$input)->update(['status' => 0]);
         ActivityLog::add($request, 'Xóa thành công '.$this->module.' #'.json_encode($input));
         return redirect()->back()->with('success',__('Xóa thành công !'));
@@ -362,7 +247,6 @@ class ItemController extends Controller
 
     public function duplicate(Request $request,$id)
     {
-
         $data= Item::where('module', '=', $this->module)->find($id);
         if(!$data){
             return redirect()->back()->withErrors(__('Không tìm thấy dữ liệu để nhân bản'));
@@ -375,23 +259,19 @@ class ItemController extends Controller
         $dataNew->duplicate=0;
         $dataNew->is_slug_override=0;
         $dataNew->save();
+
         //set group cho dataNew
         $dataNew->groups()->sync($dataGroup);
 
         //update data old plus 1 count version
         $data->duplicate=(int)$data->duplicate+1;
         $data->save();
-
         ActivityLog::add($request, 'Nhân bản '.$this->module.' #'.$data->id ."thành #".$dataNew->id);
         return redirect()->back()->with('success',__('Nhân bản thành công'));
-
-
     }
-
 
     public function update_field(Request $request)
     {
-
         $input=explode(',',$request->id);
         $field=$request->field;
         $value=$request->value;
@@ -405,36 +285,28 @@ class ItemController extends Controller
             ]);
         }
 
-
         $data=Item::where('module','=',$this->module)::whereIn('id',$input)->update([
             $field=>$value
         ]);
-
         ActivityLog::add($request, 'Cập nhật field thành công '.$this->module.' '.json_encode($whitelist).' #'.json_encode($input));
-
         return response()->json([
             'success'=>true,
             'message'=>__('Cập nhật thành công !'),
             'redirect'=>''
         ]);
-
     }
 
 
     // AJAX Reordering function
     public function order(Request $request)
     {
-
-
         $source = e($request->get('source'));
         $destination = $request->get('destination');
-
         $item = Group::where('module', '=', $this->module)->find($source);
         $item->parent_id = isset($destination)?$destination:0;
         $item->save();
 
         $ordering = json_decode($request->get('order'));
-
         $rootOrdering = json_decode($request->get('rootOrder'));
 
         if ($ordering) {

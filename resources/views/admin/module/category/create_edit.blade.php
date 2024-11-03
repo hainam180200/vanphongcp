@@ -1,7 +1,6 @@
 {{-- Extends layout --}}
 @extends('admin._layouts.master')
 
-
 @section('action_area')
     <div class="d-flex align-items-center text-right">
         <a href="{{route('admin.'.$module.'.index')}}"
@@ -9,7 +8,6 @@
             <i class="ki ki-long-arrow-back icon-sm"></i>
             Back
         </a>
-
         <div class="btn-group">
             <button type="button" class="btn btn-success font-weight-bolder btn-submit-custom" data-form="formMain" data-submit-close="1">
                 <i class="ki ki-check icon-sm"></i>
@@ -18,7 +16,6 @@
                 @else
                     {{__('Thêm mới')}}
                 @endif
-
             </button>
             <button type="button" class="btn btn-success dropdown-toggle dropdown-toggle-split btn-submit-dropdown"
                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -37,22 +34,14 @@
                             </span>
                         </button>
                     </li>
-
                 </ul>
             </div>
         </div>
-
-
-
-
-
-
     </div>
 @endsection
 
 {{-- Content --}}
 @section('content')
-
     @if(isset($data))
         {{Form::open(array('route'=>array('admin.'.$module.'.update',$data->id),'method'=>'PUT','id'=>'formMain','enctype'=>"multipart/form-data" , 'files' => true))}}
     @else
@@ -69,12 +58,9 @@
                             {{__($page_breadcrumbs[0]['title'])}} <i class="mr-2"></i>
                         </h3>
                     </div>
-
                 </div>
 
                 <div class="card-body">
-
-
                     {{-----parent_id------}}
                     <div class="form-group row">
                         <div class="col-12 col-md-6">
@@ -95,10 +81,7 @@
                                 <div class="form-control-feedback">{{ $errors->first('parent_id') }}</div>
                             @endif
                         </div>
-
                     </div>
-
-
                     {{-----title------}}
                     <div class="form-group row">
                         <div class="col-12 col-md-12">
@@ -110,19 +93,14 @@
                                 <span class="form-text text-danger">{{ $errors->first('title') }}</span>
                             @endif
                         </div>
-
                     </div>
-
                     {{-----slug------}}
                     <div class="form-group row">
                         <div class="col-12 col-md-12">
                             <label>{{ __('Permalink') }}:</label>
-
                             <span class="">
                                 <a  id="permalink" class="permalink" target="_blank" href="{{Request::getSchemeAndHttpHost()}}/{{ old('slug', isset($data) ? $data->slug : null) }}">
-
                                 <span class="default-slug">{{Request::getSchemeAndHttpHost()}}/<span id="label-slug" data-override-edit="0">{{ old('slug', isset($data) ? $data->slug : null) }}</span></span>
-
                                 </a>
                                 <input type="text" value=""  class="form-control" id="input-slug-edit" style="width: auto !important;display: none"/>
                                 <a  class="btn btn-light-primary font-weight-bolder mr-2" id="btn-slug-edit">Chỉnh sửa</a>
@@ -134,11 +112,7 @@
                                 <input type="hidden" id="is_slug_override" name="is_slug_override" value="{{ old('is_slug_override', isset($data) ? $data->is_slug_override : null) }}" >
                             </span>
                         </div>
-
                     </div>
-
-
-
                     {{-----description------}}
                     <div class="form-group row">
                         <div class="col-12 col-md-12">
@@ -149,7 +123,6 @@
                             @endif
                         </div>
                     </div>
-
                     {{-----content------}}
                     <div class="form-group row">
                         <div class="col-12 col-md-12">
@@ -160,7 +133,6 @@
                             @endif
                         </div>
                     </div>
-
                     {{-- target --}}
                     <div class="form-group row">
                         <div class="col-12 col-md-4">
@@ -170,7 +142,6 @@
                                 <div class="form-control-feedback">{{ $errors->first('target') }}</div>
                             @endif
                         </div>
-
                         <div class="col-12 col-md-4">
                             <label for="target" class="form-control-label">{{ __('Url Link:') }}</label>
                             <input type="text"  name="url" value="{{ old('url', isset($data) ? $data->url : null) }}"
@@ -489,11 +460,15 @@
                 height: 600,
                 onInit: function (finder) {
                     finder.on('files:choose', function (evt) {
-                        var file = evt.data.files.first();
-                        var url = file.getUrl();
-                        elemThumb.attr("src", url);
-                        elemInput.val(url);
+                        var file = evt.data.files.first(); // Lấy file đầu tiên
+                        var url = file.getUrl(); // Lấy URL của file
 
+                        // Chèn ảnh vào CKEditor
+                        var editor = CKEDITOR.instances[elem_id]; // Lấy instance của CKEditor
+                        editor.insertHtml('<img src="' + url + '" />'); // Chèn ảnh vào editor
+
+                        elemThumb.attr("src", url); // Cập nhật ảnh thumbnail
+                        elemInput.val(url); // Lưu URL vào input
                     });
                 }
             });

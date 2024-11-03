@@ -12,22 +12,22 @@ use Illuminate\Http\Request;
 
 
 Route::get('/',function(){
-    if(HelpersDevice::isMobile()) {
-        return view('frontend.pages.mobile.index');
-    }
-    else{
-        return view('frontend.pages.desktop.index');
-    }
+    return view('frontend.pages.index');
 })->name('index');
+Route::get('/lien-he',function(){
+    return view('frontend.pages.contact');
+})->name('article-list');
+Route::get('/tin-tuc-detail',function(){
+    return view('frontend.pages.article.detail');
+})->name('article-detail');
+Route::get('/van-ban',function(){
+    return view('frontend.pages.documents.list');
+})->name('documents-list');
+Route::get('/van-ban-detail',function(){
+    return view('frontend.pages.documents.detail');
+})->name('documents-detail');
 Route::get('/sitemap.xml', 'Frontend\SiteMapController@index');
-Route::get('/so-sanh',function(){
-    if(HelpersDevice::isMobile()) {
-        return view('frontend.pages.mobile.installment');
-    }
-    else{
-        return view('frontend.pages.desktop.compare');
-    }
-});
+
 Route::get('/account/order',function(){
         return view('frontend.pages.account.order');
 });
@@ -45,25 +45,6 @@ Route::group(['namespace' => 'Frontend'], function () {
     Route::get('/item-list',[\App\Http\Controllers\Frontend\ProductController::class,'category']);
     Route::get('/tim-kiem','ProductController@getSearch');
     Route::get('/tim-kiem-bai-viet','BlogController@getSearch');
-    Route::group(['middleware' => 'auth_frontend'], function () {
-        Route::post('/user/favourite/{id}','UserController@postUserFavourite');
-        Route::get('account/info',[\App\Http\Controllers\Frontend\UserController::class,'getProfile'])->name('getProfile');
-        Route::get('account/index',[\App\Http\Controllers\Frontend\UserController::class,'getInfo'])->name('getInfo');
-        Route::post('/profile',[\App\Http\Controllers\Frontend\UserController::class,'postProfile']);
-        Route::post('/order','OrderController@postOrder');
-        Route::post('/order-now/{id}','OrderController@postOrderNow');
-        Route::post('/order-installment/{id}','OrderController@postOrderInstallment');
-        Route::get('/order/success/{id}','OrderController@orderSuccess');
-        Route::get('/check-out/{id}','OrderController@getCheckout');
-        Route::post('/check-out/{id}','OrderController@postCheckout');
-        Route::post('/order/{id}/confirm','OrderController@postConfirmOrder');
-        Route::post('/postComment',[\App\Http\Controllers\Frontend\ProductController::class,'postComment']);
-        Route::post('/postReplyComment',[\App\Http\Controllers\Frontend\ProductController::class,'postReplyComment']);
-        Route::get('/account/order/{id}',[\App\Http\Controllers\Frontend\UserController::class,'getOrderDetail']);
-        Route::get('/account/order','UserController@getOrder');
-        Route::get('/account/wishlist','UserController@getFavorite');
-        Route::post('/postimageProfile',[\App\Http\Controllers\Frontend\UserController::class,'postImage']);
-    });
 });
 Route::get('/blog','Frontend\BlogController@index');
 
@@ -89,7 +70,11 @@ Route::get('/san-pham-da-xem','Frontend\ProductController@getProductSeen');
 
 Route::get('/{slug}',function(Request $request, $slug){
     $app = null;
-    $data = Group::where('module','=','product-category')
+    $data = Group::query()
+    ->where(function ($query) use ($slug){
+        $query->where('module','=','product-category');
+        $query->orWhere('module','=','article-category');
+    })
     ->where(function ($query) use ($slug){
         $query->where('slug','=',$slug);
         $query->orWhere('url','=',$slug);
@@ -97,7 +82,11 @@ Route::get('/{slug}',function(Request $request, $slug){
     ->where('status',1)
     ->first();
     if(!$data){
-        $data = Item::with('groups')->where('module','=','product')
+        $data = Item::with('groups')
+        ->where(function ($query) use ($slug){
+            $query->where('module','=','product');
+            $query->orWhere('module','=','article');
+        })
         ->where(function ($query) use ($slug){
             $query->where('slug','=',$slug);
             $query->orWhere('url','=',$slug);
@@ -113,34 +102,6 @@ Route::get('/{slug}',function(Request $request, $slug){
             case "product":
                 $app = new ProductController();
                 return $app->getDetail($data);
-            default :
-                abort(404);
-        }
-    }
-    else{
-        abort(404);
-    }
-});
-Route::get('/blog/{slug}',function(Request $request, $slug){
-    $app = null;
-    $data = Group::where('module','=','article-category')
-        ->where(function ($query) use ($slug){
-            $query->where('slug','=',$slug);
-            $query->orWhere('url','=',$slug);
-        })
-        ->where('status',1)
-        ->first();
-    if(!$data){
-        $data = Item::with('groups')->with('author')->where('module','=','article')
-            ->where(function ($query) use ($slug){
-                $query->where('slug','=',$slug);
-                $query->orWhere('url','=',$slug);
-            })
-            ->where('status',1)
-            ->first();
-    }
-    if($data){
-        switch (strtolower($data->module)) {
             case "article-category":
                 $app = new BlogController();
                 return $app->getCategory($request, $data);
@@ -155,3 +116,71 @@ Route::get('/blog/{slug}',function(Request $request, $slug){
         abort(404);
     }
 });
+//Route::get('/{slug}',function(Request $request, $slug){
+//    $app = null;
+//    $data = Group::where('module','=','product-category')
+//    ->where(function ($query) use ($slug){
+//        $query->where('slug','=',$slug);
+//        $query->orWhere('url','=',$slug);
+//    })
+//    ->where('status',1)
+//    ->first();
+//    if(!$data){
+//        $data = Item::with('groups')->where('module','=','product')
+//        ->where(function ($query) use ($slug){
+//            $query->where('slug','=',$slug);
+//            $query->orWhere('url','=',$slug);
+//        })
+//        ->where('status',1)
+//        ->first();
+//    }
+//    if($data){
+//        switch (strtolower($data->module)) {
+//            case "product-category":
+//                $app = new ProductController();
+//                return $app->getCategory($request, $data);
+//            case "product":
+//                $app = new ProductController();
+//                return $app->getDetail($data);
+//            default :
+//                abort(404);
+//        }
+//    }
+//    else{
+//        abort(404);
+//    }
+//});
+//Route::get('/thong-tin/{slug}',function(Request $request, $slug){
+//    $app = null;
+//    $data = Group::where('module','=','article-category')
+//        ->where(function ($query) use ($slug){
+//            $query->where('slug','=',$slug);
+//            $query->orWhere('url','=',$slug);
+//        })
+//        ->where('status',1)
+//        ->first();
+//    if(!$data){
+//        $data = Item::with('groups')->with('author')->where('module','=','article')
+//            ->where(function ($query) use ($slug){
+//                $query->where('slug','=',$slug);
+//                $query->orWhere('url','=',$slug);
+//            })
+//            ->where('status',1)
+//            ->first();
+//    }
+//    if($data){
+//        switch (strtolower($data->module)) {
+//            case "article-category":
+//                $app = new BlogController();
+//                return $app->getCategory($request, $data);
+//            case "article":
+//                $app = new BlogController();
+//                return $app->getDetail($data);
+//            default :
+//                abort(404);
+//        }
+//    }
+//    else{
+//        abort(404);
+//    }
+//});

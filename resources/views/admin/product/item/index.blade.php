@@ -1,7 +1,5 @@
 {{-- Extends layout --}}
 @extends('admin._layouts.master')
-
-
 @section('action_area')
     <div class="d-flex align-items-center text-right">
 
@@ -13,11 +11,8 @@
         </div>
     </div>
 @endsection
-
 {{-- Content --}}
 @section('content')
-
-
     <div class="card card-custom" id="kt_page_sticky_card">
         <div class="card-header">
             <div class="card-title">
@@ -26,9 +21,7 @@
                 </h3>
             </div>
             <div class="card-toolbar"></div>
-
         </div>
-
         <div class="card-body">
             <!--begin: Search Form-->
             <form class="mb-10">
@@ -54,7 +47,6 @@
                                    placeholder="{{__('Tiêu đề')}}">
                         </div>
                     </div>
-
                     {{--group_id--}}
                     <div class="form-group col-12 col-sm-6 col-lg-3">
                         <div class="input-group">
@@ -62,7 +54,6 @@
                                 <span class="input-group-text"><i
                                         class="la la-calendar-check-o glyphicon-th"></i></span>
                             </div>
-
                             <select id="group_id"
                                     class="form-control datatable-input datatable-input-select selectpicker" data-live-search="true"  title="-- {{__('Tất cả danh mục')}} --">
                                     <option value=''>-- Tất cả danh mục --</option>
@@ -76,8 +67,6 @@
 
                         </div>
                     </div>
-
-
                     {{--status--}}
                     <div class="form-group col-12 col-sm-6 col-lg-3">
                         <div class="input-group">
@@ -88,22 +77,6 @@
                             {{Form::select('status',[''=>'-- Tất cả trạng thái --']+config('module.language-nation.status'),old('status', isset($data) ? $data->status : null),array('id'=>'status','class'=>'form-control datatable-input',))}}
                         </div>
                     </div>
-
-
-                    @if(!empty(config('module.'.$module.'.position')))
-
-                        {{--position--}}
-                        <div class="form-group col-12 col-sm-6 col-lg-3">
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                <span class="input-group-text"><i
-                                        class="la la-calendar-check-o glyphicon-th"></i></span>
-                                </div>
-                                {{Form::select('position',[''=>'-- '.__('Tất cả vị trí').' --']+config('module.'.$module.'.position'),old('status', isset($data) ? $data->position : null),array('id'=>'position','class'=>'form-control datatable-input',))}}
-                            </div>
-                        </div>
-                    @endif
-
                     {{--started_at--}}
                     <div class="form-group col-12 col-sm-6 col-lg-3">
                         <div class="input-group">
@@ -116,7 +89,6 @@
 
                         </div>
                     </div>
-
                     {{--ended_at--}}
                     <div class="form-group col-12 col-sm-6 col-lg-3">
                         <div class="input-group">
@@ -126,11 +98,8 @@
                             <input type="text" name="ended_at" id="ended_at" autocomplete="off"
                                    class="form-control datatable-input   datetimepicker-input datetimepicker-default"
                                    placeholder="{{__('Thời gian kết thúc')}}" data-toggle="datetimepicker">
-
                         </div>
                     </div>
-
-
                 </div>
                 <div class="row">
                     <div class="col-lg-12">
@@ -150,16 +119,12 @@
                 </div>
             </form>
             <!--begin: Search Form-->
-
             <!--begin: Datatable-->
             <table class="table table-bordered table-hover table-checkable " id="kt_datatable">
             </table>
             <!--end: Datatable-->
         </div>
     </div>
-
-
-    {{---------------all modal controll-------}}
 
     <!-- delete item Modal -->
     <div class="modal fade" id="deleteModal">
@@ -184,13 +149,6 @@
             </div>
         </div>
     </div>
-
-
-
-
-
-
-
 @endsection
 
 {{-- Styles Section --}}
@@ -199,14 +157,11 @@
 @endsection
 {{-- Scripts Section --}}
 @section('scripts')
-
     <script>
         "use strict";
         var datatable;
         var KTDatatablesDataSourceAjaxServer = function () {
             var initTable1 = function () {
-
-
                 // begin first table
                 datatable = $('#kt_datatable').DataTable({
                     responsive: true,
@@ -236,7 +191,6 @@
                         url: '{{url()->current()}}' + '?ajax=1',
                         type: 'GET',
                         data: function (d) {
-
                             d.id = $('#id').val();
                             d.title = $('#title').val();
                             d.status = $('#status').val();
@@ -248,7 +202,6 @@
                     },
 
                     buttons: [
-
                         {
                             text: '<i class="m-nav__link-icon la la-trash"></i> Xóa đã chọn ',
                             action : function(e) {
@@ -259,7 +212,6 @@
                                     alert("Vui lòng chọn dòng để thực hiện thao tác");
                                     return;
                                 }
-
                                 datatable.$('.ckb_item input[type="checkbox"]').each(function (index, elem)  {
                                     if ($(elem).is(':checked')) {
                                         allSelected = allSelected + $(elem).attr('rel');
@@ -278,11 +230,6 @@
                             "text": ' <i class="far fa-file-excel icon-md"></i> {{__('Xuất excel')}} ',
                             "action": newexportaction,
                         },
-
-
-
-
-
                     ],
                     columns: [
                         {
@@ -297,7 +244,6 @@
 
                             }
                         },
-
                         {data: 'id', title: 'ID'},
                         {data: 'created_at', title: '{{__('Thời gian')}}'},
                         {
@@ -313,20 +259,6 @@
                                 }
                             }
                         },
-
-                        @if(!empty(config('module.'.$module.'.position')))
-
-                        {data: 'position',title:'{{__('Vị trí')}}', orderable: false, searchable: false,
-
-                            render: function ( data, type, row ) {
-                                 var arrConfig= {!! json_encode(config('module.'.$module.'.position')) !!}
-
-                                 return arrConfig[row.position]??"";
-
-                            }
-                        },
-                        @endif
-
                         {
                             data: "groups", title: '{{__('Danh mục')}}', orderable: false,
                             render: function (data, type, row) {
@@ -343,10 +275,6 @@
                                 return temp;
                             }
                         },
-
-
-                        
-
                         {data: 'image',title:'{{__('Hình ảnh')}}', orderable: false, searchable: false,
                             render: function ( data, type, row ) {
                                 if(row.image=="" || row.image==null){
@@ -358,8 +286,6 @@
                                 }
                             }
                         },
-                        {data: 'price', title: '{{__('Giá bán')}}'},
-                        {data: 'order', title: '{{__('Thứ tự')}}'},
                         {
                             data: 'status', title: '{{__('Trạng thái')}}',
                             render: function (data, type, row) {
@@ -375,7 +301,6 @@
                             }
                         },
                         { data: 'action',title:'Thao tác', orderable: false, searchable: false}
-
                     ],
                     "drawCallback": function (settings) {
                     }
@@ -397,7 +322,6 @@
                             params[i] = $(this).val();
                         }
                     });
-
                     $.each(params, function (i, val) {
                         // apply search params to datatable
                         datatable.column(i).search(val ? val : '', false, false);
@@ -430,8 +354,6 @@
 
                 //function update field
                 datatable.on("change", ".update_field", function (e) {
-
-
                     e.preventDefault();
                     var action=$(this).data('action');
                     var field=$(this).data('field');
@@ -448,9 +370,6 @@
                             $(this).data('value',0);
                         }
                     }
-
-
-
                     $.ajax({
                         type: "POST",
                         url: action,
@@ -474,22 +393,16 @@
 
                                 toast('{{__('Cập nhật thất bại.Vui lòng thử lại')}}', 'error');
                             }
-
-
                         },
                         error: function (data) {
                             toast('{{__('Cập nhật thất bại.Vui lòng thử lại')}}', 'error');
                         },
                         complete: function (data) {
-
                         }
                     });
-
                 });
-
             };
             return {
-
                 //main function to initiate the module
                 init: function () {
                     initTable1();
@@ -499,8 +412,6 @@
         }();
 
         function newexportaction(e, dt, button, config) {
-
-
             $(button).text("Đang tải...");
             $(button).prop('disabled', true);
             var self = this;
@@ -510,7 +421,6 @@
                 data.start = 0;
                 data.length = 2147483647;
                 dt.one('preDraw', function (e, settings) {
-
                     // Call the original action function
                     if (button[0].className.indexOf('buttons-copy') >= 0) {
                         $.fn.dataTable.ext.buttons.copyHtml5.action.call(self, e, dt, button, config);
@@ -544,29 +454,23 @@
                 });
             });
             // Requery the server with the new one-time export settings
-
             dt.ajax.reload();
         };
-
-
 
         //Funtion web ready state
         jQuery(document).ready(function () {
             KTDatatablesDataSourceAjaxServer.init();
-
             $('.datetimepicker-default').datetimepicker({
                 format: 'DD/MM/YYYY HH:mm:00',
                 useCurrent: true,
                 autoclose: true
 
             });
-
             $('#deleteModal').on('show.bs.modal', function(e) {
                 //get data-id attribute of the clicked element
                 var id = $(e.relatedTarget).attr('rel')
                 $('#deleteModal .id').attr('value', id);
             });
-
             $('.btn-submit-custom').click(function (e) {
                 e.preventDefault();
                 $(".btn-submit-custom").each(function (index, value) {
@@ -578,17 +482,6 @@
                 var formSubmit = $('#' + $(btn).data('form'));
                 formSubmit.submit();
             });
-
-
-
         });
-
-
-
-
-
     </script>
-
-
-
 @endsection

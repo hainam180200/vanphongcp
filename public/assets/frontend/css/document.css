@@ -1,0 +1,25 @@
+
+.document-form{
+    background: #fff none repeat scroll 0 0;
+    border: 1px solid #e0e0e0;
+    padding: 0 10px;
+}
+.document-header {
+    border-bottom: 2px solid #eabc00;
+    height: 32px;
+    margin: 0 0 10px;
+    padding: 0 10px;
+}
+.article-content-arrow {
+    background: rgba(0, 0, 0, 0) url(../image/arrow.png) no-repeat scroll left center;
+    padding: 2px 0 2px 10px;
+}
+@media only screen and (min-width: 0px) {
+    .document-header {
+        display: block;
+        min-height: 26px;
+        margin-top: 10px;
+        height: auto;
+        padding: 0;
+    }
+}

@@ -8,7 +8,6 @@ use Request;
 
 class Files
 {
-
 	static function media($path){
 
 
@@ -35,10 +34,6 @@ class Files
 
 		}
 	}
-
-
-
-
     static function upload_image_extension($files = false, $dir = 'images', $filename="", $width = true, $height = true,$keepOrginExtention=false){
 
         $allFilename = "";
@@ -84,7 +79,6 @@ class Files
         // dd($allFilename);
         return $allFilename;
     }
-
     static function upload_image($files = false, $dir = 'images', $filename="", $width = true, $height = true,$keepOrginExtention=true){
 
         if($files===null){
@@ -135,7 +129,6 @@ class Files
 
         return $allFilename;
     }
-
     private static function uploadEachFile($file = false, $dir, $filename, $width = false, $height = false,$keepOrginExtention = false){
         $result = "";
 
@@ -208,8 +201,6 @@ class Files
 
         return $result;
     }
-
-
     private static function uploadEachFile_extension($file = false, $dir, $filename, $width = false, $height = false,$keepOrginExtention = false){
         $result = "";
 
@@ -294,11 +285,6 @@ class Files
 
         return $result;
     }
-
-
-
-
-
     static function upload_url($url, $dir, $filename, $width = false, $height = false){
         $url = str_replace(' ', '%20', $url);
         try {
@@ -342,7 +328,6 @@ class Files
             return false;
         }
     }
-
     static function delete_image($path){
         try {
             if($path==""){
@@ -365,6 +350,79 @@ class Files
 
 
     }
+    // upload pdf
+    static function upload_pdf($file = false, $dir = 'pdfs', $filename = "")
+    {
+        if ($file === null) {
+            return "";
+        }
+
+        $allowedExtensions = array('pdf'); // Chỉ cho phép file PDF
+        $allFilename = "";
+
+        if ($file) {
+            // Kiểm tra định dạng file
+            $extension = strtolower($file->getClientOriginalExtension());
+            if (in_array($extension, $allowedExtensions)) {
+                $filename = $filename != "" ? $filename : self::rand_string(10) . '_' . time();
+                $allFilename = self::uploadEachPdf($file, $dir, $filename);
+            }
+        }
+
+        return $allFilename;
+    }
+
+   static function uploadEachPdf($file = false, $dir, $filename, $width = false, $height = false, $keepOriginalExtension = false) {
+        $result = "";
+        try {
+            // Lấy tên file gốc mà không có phần mở rộng
+            $originalName = $file->getClientOriginalName();
+            $fileBaseName = pathinfo($originalName, PATHINFO_FILENAME);
+
+            // Tạo tên file duy nhất bằng cách thêm thời gian hiện tại
+            $uniqueSuffix = time() . '_' . uniqid();
+            $filename = "{$fileBaseName}_{$uniqueSuffix}";
+
+            // Kiểm tra và tạo phần mở rộng file
+            $extension = $keepOriginalExtension ? $file->getClientOriginalExtension() : 'pdf';
+            $filename .= ".{$extension}";
+
+            // Đường dẫn đầy đủ của file
+            $path = "{$dir}/{$filename}";
+
+            // Thư mục tạm để lưu file trước khi xử lý
+            $tempDir = "temp";
+            if (!is_dir($tempDir)) {
+                mkdir($tempDir, 0777, true); // Tạo thư mục tạm nếu chưa tồn tại
+            }
+            $tempFilePath = "{$tempDir}/{$filename}";
+
+            // Lưu file vào thư mục tạm
+            $file->move($tempDir, $filename);
+
+            // Kiểm tra nếu file đã được tạo thành công
+            if (!file_exists($tempFilePath)) {
+                throw new \Exception("File không được tạo đúng cách: {$tempFilePath}");
+            }
+
+            // Upload file vào FTP hoặc local storage
+            $storage = !empty(config('filesystems.disks.ftp.url')) ? Storage::disk('ftp') : Storage::disk('public');
+            if ($storage->putFileAs($dir, new File($tempFilePath), $filename)) {
+                $result = "/{$path}";
+            }
+
+            // Xóa file tạm sau khi xử lý
+            if (file_exists($tempFilePath)) {
+                unlink($tempFilePath);
+            }
+
+        } catch (\Exception $e) {
+            \Log::error($e);
+            return "";
+        }
+
+        return $result;
+    }
 
     static function rand_string($length)
     {
@@ -379,6 +437,8 @@ class Files
 
         return $str;
     }
+
+
 
 
 }

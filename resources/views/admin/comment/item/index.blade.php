@@ -54,16 +54,6 @@
                                    placeholder="{{__('Khách hàng')}}">
                         </div>
                     </div>
-                    <div class="form-group col-12 col-sm-6 col-lg-3">
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text"><i
-                                        class="la la-calendar-check-o glyphicon-th"></i></span>
-                            </div>
-                            <input type="text" class="form-control datatable-input" id="item"
-                                   placeholder="{{__('Bài viết')}}">
-                        </div>
-                    </div>
 
                     {{--status--}}
                     <div class="form-group col-12 col-sm-6 col-lg-3">
@@ -72,7 +62,7 @@
                                 <span class="input-group-text"><i
                                         class="la la-calendar-check-o glyphicon-th"></i></span>
                             </div>
-                            {{Form::select('status',[''=>'-- Tất cả trạng thái --']+config('comment.status'),old('status', isset($data) ? $data->status : null),array('id'=>'status','class'=>'form-control datatable-input',))}}
+                            {{ Form::select('type', ['' => '-- Chuyên mục --'] + config('module.comment.type'), old('type'), ['id' => 'type', 'class' => 'form-control datatable-input']) }}
                         </div>
                     </div>
 
@@ -209,11 +199,9 @@
                         url: '{{url()->current()}}' + '?ajax=1',
                         type: 'GET',
                         data: function (d) {
-
                             d.id = $('#id').val();
                             d.username = $('#username').val();
-                            d.status = $('#status').val();
-                            d.position = $('#position').val();
+                            d.type = $('#type').val();
                             d.started_at = $('#started_at').val();
                             d.ended_at = $('#ended_at').val();
                         }
@@ -269,36 +257,20 @@
 
                             }
                         },
-
-                        {data: 'id', title: 'Mã bình luận'},
+                        {data: 'id', title: 'Mã ý kiến'},
                         {data: 'created_at', title: '{{__('Thời gian')}}'},
-                        {data: 'user', title: '{{__('Khách hàng')}}'},
-                        {
-                            data: 'item', title: '{{__('Sản phẩm')}}',
-                            render: function (data, type, row) {
-                                console.log(row)
-                                if( row.slug+"" !== 'undefined'  ){
-                                    var temp = "<a href=\"" +ROOT_DOMAIN+"/"+ row.slug + "\" title=\""+row.title+"\"  target='_blank'    >" + row.item + "</a>";
-                                    return temp;
-                                }
-                                else{
-                                    var temp = "<a href=\"" +ROOT_DOMAIN + "\" title=\""+row.slug+"\"  target='_blank'     >" + row.item + "</a>";
-                                    return temp;
-                                }
-
-
-                            }
-                        },
+                        {data: 'author', title: '{{__('Khách hàng')}}'},
+                        {data: 'title', title: '{{__('Tiêu đề')}}'},
                         {data: 'content', title: '{{__('Nội dung')}}'},
                         {
-                            data: 'status', title: '{{__('Trạng thái')}}',
+                            data: 'type', title: '{{__('Chuyên mục')}}',
                             render: function (data, type, row) {
 
-                                if (row.status == 0) {
-                                    return "<span class=\"label label-pill label-inline label-center mr-2  label-danger \">" + "{{config('comment.status.0')}}" + "</span>";
+                                if (row.type == 1) {
+                                    return "<span class=\"label label-pill label-inline label-center mr-2  label-danger \">" + "{{config('module.comment.type.1')}}" + "</span>";
                                 }
-                                else if (row.status == 1) {
-                                    return "<span class=\"label label-pill label-inline label-center mr-2 label-dark \">" + "{{config('comment.status.1')}}" + "</span>";
+                                else if (row.status == 2) {
+                                    return "<span class=\"label label-pill label-inline label-center mr-2 label-dark \">" + "{{config('module.comment.type.2')}}" + "</span>";
                                 }
 
                                 else {
@@ -307,6 +279,7 @@
 
                             }
                         },
+
                             { data: 'action',title:'Xem chi tiết', orderable: false, searchable: false}
                         {{--{--}}
                         {{--    data: 'status', title: '{{__('Trạng thái')}}',--}}

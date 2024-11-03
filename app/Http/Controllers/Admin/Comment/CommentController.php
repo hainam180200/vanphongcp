@@ -52,12 +52,8 @@ class CommentController extends Controller
         ActivityLog::add($request, 'Truy cập danh sách '.$this->module);
 
         if($request->ajax) {
-            $datatable= Comment::where('module','comment');
-//            $datatable= Comment::with(array('groups' => function ($query) {
-//                $query->where('module', $this->moduleCategory);
-//
-//                $query->select('groups.id','title');
-//            }))->where('module', $this->module);
+            $datatable= Comment::query();
+
             if ($request->filled('id'))  {
                 $datatable->where(function($q) use($request){
                     $q->orWhere('id', $request->get('id'));
@@ -68,24 +64,22 @@ class CommentController extends Controller
                     $q->orWhere('content', 'LIKE', '%' . $request->get('content') . '%');
                 });
             }
+            if ($request->filled('title'))  {
+                $datatable->where(function($q) use($request){
+                    $q->orWhere('title', 'LIKE', '%' . $request->get('content') . '%');
+                });
+            }
             if ($request->filled('username')) {
-                $datatable->whereHas('user', function ($query) use ($request) {
-                    $query->where(function ($qChild) use ($request){
-                        $qChild->where('username', $request->get('username'));
-                    });
-
+                $datatable->where(function($q) use($request){
+                    $q->orWhere('author', 'LIKE', '%' . $request->get('author') . '%');
                 });
             }
-            if ($request->filled('item')) {
-                $datatable->whereHas('item', function ($query) use ($request) {
-                    $query->where(function ($qChild) use ($request){
-                        $qChild->where('item', $request->get('item'));
-                    });
 
-                });
-            }
             if ($request->filled('status')) {
                 $datatable->where('status',$request->get('status') );
+            }
+            if ($request->filled('type')) {
+                $datatable->where('status',$request->get('type') );
             }
             if ($request->filled('started_at')) {
                 $datatable->where('created_at', '>=', Carbon::createFromFormat('d/m/Y H:i:s', $request->get('started_at')));
@@ -97,48 +91,19 @@ class CommentController extends Controller
 
                 ->only([
                     'id',
-                    'item_id',
-                    'author_id',
+                    'author',
                     'content',
-                    'created_at',
-                    'user',
-                    'item',
-                    'slug',
-                    'action',
                     'status',
-                    'content',
+                    'type',
+                    'address',
+                    'title',
+                    'phone',
+                    'email',
+                    'action',
+                    'created_at',
                 ])
                 ->editColumn('created_at', function($data) {
                     return date('d/m/Y H:i:s', strtotime($data->created_at));
-                })
-                ->addColumn('user', function($row) {
-
-                    $result = "";
-
-                    if($row->user->username != ""){
-
-                        $result .= $row->user->username;
-                    }
-
-                    return $result;
-                })
-                ->addColumn('item', function($row) {
-
-                    $result = "";
-                    if($row->item->title != ""){
-                        $result .= $row->item->title;
-                    }
-
-                    return $result;
-                })
-                ->addColumn('slug', function($row) {
-
-                    $result = "";
-                    if($row->item->slug != ""){
-                        $result .= $row->item->slug;
-                    }
-
-                    return $result;
                 })
                 ->addColumn('action', function($row) {
                     $temp= "<a href=\"".route('admin.'.$this->module.'.show',$row->id)."\"  rel=\"$row->id\" class=\"btn btn-sm  btn-icon btn-hover-text-white btn-hover-bg-primary \" title=\"Xem\"><i class=\"la la-eye\"></i></a>";
@@ -147,24 +112,27 @@ class CommentController extends Controller
 
                 ->toJson();
         }
-        $dataCategory = Comment::with('item')->with('user')->get();
-//        $comment = Comment::with('item')->with('user')->where('author_id',$user->id)->get();
 
         return view('admin.comment.item.index')
             ->with('module', $this->module)
-            ->with('page_breadcrumbs', $this->page_breadcrumbs)
-            ->with('dataCategory', $dataCategory);
+            ->with('page_breadcrumbs', $this->page_breadcrumbs);
     }
     public function show(Request $request, $id)
     {
-        $data = Comment::with('user')->with('item')->where('id',$id)->firstOrFail();
-//        $detail = OrderDetail::where('order_id',$data->id)->get();
-        ActivityLog::add($request, 'Truy cập chi tiết đơn hàng '.$data->id);
+        $data = Comment::where('id',$id)->firstOrFail();
+        ActivityLog::add($request, 'Truy cập chi tiết ý kiến '.$data->id);
         return view('admin.comment.item.show')
             ->with('module', $this->module)
             ->with('data', $data)
-//            ->with('detail', $detail)
             ->with('page_breadcrumbs', $this->page_breadcrumbs);
+    }
+    public function destroy(Request $request)
+    {
+        $input=explode(',',$request->id);
+
+        Comment::whereIn('id',$input)->delete();
+        ActivityLog::add($request, 'Xóa thành công '.$this->module.' #'.json_encode($input));
+        return redirect()->back()->with('success',__('Xóa thành công !'));
     }
     public function updateComment(Request $request, $id){
         // tìm đơn hàng

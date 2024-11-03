@@ -50,111 +50,13 @@
     </div>
     <div class="col-lg-4 c-mt-lg-8 c-px-lg-4">
         <!-- văn bản mới-->
-        <div class="article-default c-mb-12">
-            <div class="article-header w-100">
-                <a href="">
-                    Loại văn bản
-                </a>
-            </div>
-            <div class="article-content c-mt-12">
+        {!! widget('frontend.widget._agency') !!}
+        {!! widget('frontend.widget._field') !!}
+        {!! widget('frontend.widget._category') !!}
 
-                <div class="article-content-item c-px-12">
-                    <div class="article-content-arrow c-mb-6">
-                        Công văn (0)
-                    </div>
-                    <div class="article-content-arrow c-mb-6">
-                        Công văn (0)
-                    </div>
-                    <div class="article-content-arrow c-mb-6">
-                        Công văn (0)
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="article-default c-mb-12">
-            <div class="article-header w-100">
-                <a href="">
-                    Loại văn bản
-                </a>
-            </div>
-            <div class="article-content c-mt-12">
+        {!! widget('frontend.widget._section_widget_slide_ads') !!}
+        {!! widget('frontend.widget._section_widget_iframe_right_1') !!}
 
-                <div class="article-content-item c-px-12">
-                    <div class="article-content-arrow c-mb-6">
-                        Công văn (0)
-                    </div>
-                    <div class="article-content-arrow c-mb-6">
-                        Công văn (0)
-                    </div>
-                    <div class="article-content-arrow c-mb-6">
-                        Công văn (0)
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="article-default c-mb-12">
-            <div class="article-header w-100">
-                <a href="">
-                    Loại văn bản
-                </a>
-            </div>
-            <div class="article-content c-mt-12">
-
-                <div class="article-content-item c-px-12">
-                    <div class="article-content-arrow c-mb-6">
-                        Công văn (0)
-                    </div>
-                    <div class="article-content-arrow c-mb-6">
-                        Công văn (0)
-                    </div>
-                    <div class="article-content-arrow c-mb-6">
-                        Công văn (0)
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="swiper-ads">
-            <div class="swiper-wrapper" >
-                <div class="swiper-slide" >
-                    <a href="#">
-                        <img src="image/ads1.jpg" loading="lazy">
-                    </a>
-                </div>
-                <div class="swiper-slide" >
-                    <a href="#">
-                        <img src="image/ads2.jpg" loading="lazy">
-                    </a>
-                </div>
-
-            </div>
-        </div>
-        <div class="ads-container mt-2">
-            <div class="steering-header">
-                <a href="" class="c-pl-30 fw-600 text-uppercase lh-26 text-white"> Trung tâm Điều dưỡng người có công </a>
-            </div>
-            <div class="ads-content">
-                <iframe  src="https://www.youtube.com/embed/f9P7_qWrf38?si=BslFHhVuzRChB7Fj" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-            </div>
-        </div>
-        <div class="ads-container mt-2">
-            <div class="ads-content">
-                <img src="https://storage-vnportal.vnpt.vn/sla-ubnd/5347/bannercacdonvi/banner-1-.jpg" alt="">
-            </div>
-        </div>
-        <div class="ads-container mt-2">
-            <div class="steering-header">
-                <a href="" class="c-pl-30 fw-600 text-uppercase lh-26 text-white"> Thống kê truy cập </a>
-            </div>
-            <div class="ads-content c-p-10">
-                <span>Đang online: 1</span>
-                <br>
-                <span>Hôm nay: 125</span>
-                <br>
-                <span>Tất cả: 65656</span>
-                <br>
-            </div>
-        </div>
         <div class="ads-container mt-2">
             <div class="steering-header">
                 <a href="" class="c-pl-30 fw-600 text-uppercase lh-26 text-white"> Liên kết website </a>
@@ -169,21 +71,7 @@
                 </select>
             </div>
         </div>
-        <div class="ads-container mt-2">
-            <div class="ads-content">
-                <img src="https://storage-vnportal.vnpt.vn/sla-ubnd/5347/bannercacdonvi/banner-1-.jpg" alt="">
-            </div>
-        </div>
-        <div class="ads-container mt-2">
-            <div class="ads-content">
-                <img src="https://storage-vnportal.vnpt.vn/sla-ubnd/5347/bannercacdonvi/banner-1-.jpg" alt="">
-            </div>
-        </div>
-        <div class="ads-container mt-2">
-            <div class="ads-content">
-                <img src="https://storage-vnportal.vnpt.vn/sla-ubnd/5347/bannercacdonvi/banner-1-.jpg" alt="">
-            </div>
-        </div>
+        {!! widget('frontend.widget._section_widget_iframe_right_2') !!}
 
     </div>
 </div>

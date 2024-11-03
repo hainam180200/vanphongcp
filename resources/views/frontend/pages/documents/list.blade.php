@@ -75,19 +75,7 @@
 
         {!! widget('frontend.widget._section_widget_slide_ads') !!}
         {!! widget('frontend.widget._section_widget_iframe_right_1') !!}
-        <div class="ads-container mt-2">
-            <div class="steering-header">
-                <a href="" class="c-pl-30 fw-600 text-uppercase lh-26 text-white"> Thống kê truy cập </a>
-            </div>
-            <div class="ads-content c-p-10">
-                <span>Đang online: 1</span>
-                <br>
-                <span>Hôm nay: 125</span>
-                <br>
-                <span>Tất cả: 65656</span>
-                <br>
-            </div>
-        </div>
+
         <div class="ads-container mt-2">
             <div class="steering-header">
                 <a href="" class="c-pl-30 fw-600 text-uppercase lh-26 text-white"> Liên kết website </a>

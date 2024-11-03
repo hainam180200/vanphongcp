@@ -21,7 +21,7 @@
                 <td>
                     <a href="{{isset($item->url) ? $item->url : $item->slug}}">{{$item->title}}</a>
                     <br>
-                    <span>Lượt xem: {{$item->totalviews}}</span>
+                    <span class="fz-12 font-italic" style="opacity: 0.8">Lượt xem: {{$item->totalviews ?? 0}}</span>
                 </td>
 
                 <td>

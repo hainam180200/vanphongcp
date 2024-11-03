@@ -22,7 +22,6 @@ class ActivityLog extends BaseModel {
 	 * @var    array
 	 */
 	protected $fillable = [
-
 		'shop_id',
 		'user_id',
 		'prefix',

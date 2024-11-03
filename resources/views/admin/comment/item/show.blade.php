@@ -8,63 +8,61 @@
         <div class="card-header">
             <div class="card-title">
                 <h3 class="card-label">
-                    <span> {{__('Bình luận ')}} #{{$data->id}}</span> <i class="mr-2"></i>
-                    <br/>
-                    <br/>
+                    <span> {{__('Ý kiến ')}} <b>#{{$data->id}}</b>  - Bình luận của <b> {{$data->author}}</b></span> <i class="mr-2"></i>
 
                 </h3>
             </div>
-            <div class="card-toolbar"><b>{{__('Sản phẩm ')}} #{{$data->item->title}} <i class="mr-2"></i></b></div>
         </div>
 
 
         <div class="card-body">
-            <h3> Bình luận của {{$data->user->username}}</h3>
             <table class="table table-border " style="color: #000;font-size:14px">
                 <tbody>
                 <tr>
-                    <th>#</th>
-                    <th>Tên sản phẩm</th>
-                    <th>Người bình luận</th>
-                    <th>Trạng thái</th>
-                    <th>Nội dung</th>
+                    <td >#</td>
+                    <td  rowspan=""><b > {{ isset($data->id) ? $data->id : ''}}</b></td>
                 </tr>
-
                 <tr>
-                    <td align="center" valign="middle" rowspan=""><b > {{ isset($data->id) ? $data->id : ''}}</b></td>
-                    <td><strong><b ><a href="/{{$data->item->url ? $data->item->url : $data->item->slug}}">{{$data->item->title}}</a> </b></strong></td>
-                    <td><strong><b style="">{{$data->user->username}}</b></strong></td>
-                    <td align="center">
-                        @if ($data->status == 0)
-                            <span class="label label-lg label-pill label-inline label-danger mr-2">{{config('comment.status.0')}}</span>
-                        @elseif ($data->status == 1)
-                            <span class="label label-lg label-pill label-inline label-dark mr-2">{{config('comment.status.1')}}</span>
+                    <th >Tiêu đề</th>
+                    <td  rowspan="">{{ isset($data->title) ? $data->title : ''}}</td>
+                </tr>
+                <tr>
+                    <th >Người bình luận</th>
+                    <td >{{ isset($data->author) ? $data->author : ''}}</td>
+                </tr>
+                <tr>
+                    <th >Địa chỉ</th>
+                    <td >{{ isset($data->address) ? $data->address : ''}}</td>
+                </tr>
+                <tr>
+                    <th >Số điện thoại</th>
+                    <td >{{ isset($data->phone) ? $data->phone : ''}}</td>
+                </tr>
+                <tr>
+                    <th >Email</th>
+                    <td >{{ isset($data->email) ? $data->email : ''}}</td>
+                </tr>
+                <tr>
+                    <th >Chuyên mục</th>
+                    <td >
+                        @if ($data->type == 1)
+                            <span class="label label-lg label-pill label-inline label-danger mr-2">{{config('module.comment.type.1')}}</span>
+                        @elseif ($data->type == 2)
+                            <span class="label label-lg label-pill label-inline label-dark mr-2">{{config('module.comment.type.2')}}</span>
                         @else
                             ""
                         @endif
                     </td>
-                    <td align="center">{{$data->content}}</td>
+                </tr>
+                <tr>
+                    <th >Nội dung</th>
+                     <td >{{$data->content}}</td>
+
                 </tr>
 
                 </tbody>
             </table>
-            {{Form::open(array('route'=>array('admin.order.update-item',$data->id),'method'=>'POST','enctype'=>"multipart/form-data"))}}
-            <div class="form-group row">
-                <div class="col-12 col-md-6">
-                    <label class="form-control-label">Trạng thái</label>
-                    {{Form::select('status',config('comment.status'),old('status', isset($data) ? $data->status : null),array('class'=>'form-control select-option'))}}
-                    <br>
-                    <button type="button" class="btn btn-success font-weight-bolder btn-submit-custom button-status" style="display: none;" data-toggle="modal" data-target="#updateModal">
-                        {{__('Cập nhật bình luận')}}
-                    </button>
-                </div>
-{{--                <div class="col-12 col-md-6">--}}
-{{--                    <label class="form-control-label">Ghi chú thêm</label>--}}
-{{--                    <textarea id="note" name="note" class="form-control ckeditor-basic" data-height="150"  data-startup-mode="" >{{ old('note', isset($data) ? $data->note : null) }}</textarea>--}}
-{{--                </div>--}}
 
-            </div>
-            {{ Form::close() }}
         </div>
     </div>
 

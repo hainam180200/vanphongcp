@@ -10,11 +10,13 @@
 /storage/framework/cache
 /storage/framework/session
 /storage/logs
+/storage/debugbar
 /public/storage
 /vendor
 .env
 .env.backup
 .idea/workspace.xml
+.idea/php.xml
 .phpunit.result.cache
 Homestead.json
 Homestead.yaml

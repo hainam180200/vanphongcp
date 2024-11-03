@@ -3,46 +3,60 @@
     <div class="row mx-0 c-p-8">
         <div class="col-lg-8">
             <div class="document-form">
-                <form action="">
+                <form action="{{ route('lien-he.store') }}" method="POST">
+                    @csrf
+
                     <h2 class="document-header t-cap-3 fz-20">Liên hệ </h2>
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            @foreach ($errors->all() as $error)
+                                <div class="c-mb-4">{{ $error }}</div>
+                            @endforeach
+                        </div>
+                    @endif
+                    @if (session('success'))
+                        <div class="alert alert-success">
+                            {{ session('success') }}
+                        </div>
+                    @endif
                     <div class="document-form-search c-py-8">
                         <div class="col-md-12">
                             <div class="c-mb-12">
-                                <label class="c-mb-4">Chuyên mục</label>
-                                <select type="text" name="group" class="form-control ">
-                                    <option value="" >Hỏi đáp</option>
-                                    <option value="" >Phản ánh</option>
+                                <label class="c-mb-4">Chuyên mục <span class="text-danger">*</span></label>
+                                <select type="text" name="type" class="form-control ">
+                                    <option value="1" >Hỏi đáp</option>
+                                    <option value="2" >Phản ánh</option>
                                 </select>
                             </div>
                             <div class="c-mb-12">
-                                <label class="c-mb-4">Tiêu đề</label>
+                                <label class="c-mb-4">Tiêu đề <span class="text-danger">*</span></label>
                                 <input type="text" name="title" class="form-control " placeholder="Nội dung tìm kiếm">
 
                             </div>
 
                             <div class="c-mb-12">
-                                <label class="c-mb-4">Nội dung câu hỏi</label>
+                                <label class="c-mb-4">Nội dung câu hỏi <span class="text-danger">*</span></label>
                                 <textarea type="text" name="content" class="form-control " placeholder="Nội dung câu hỏi"></textarea>
 
                             </div>
                             <div class="c-mb-12">
-                                <label class="c-mb-4">Người hỏi</label>
-                                <input type="text" name="title" class="form-control " placeholder="Người hỏi">
+                                <label class="c-mb-4">Người hỏi <span class="text-danger">*</span></label>
+                                <input type="text" name="author" class="form-control " placeholder="Người hỏi">
 
                             </div>
                             <div class="c-mb-12">
-                                <label class="c-mb-4">Địa chỉ</label>
-                                <input type="text" name="title" class="form-control " placeholder="Địa chỉ">
+                                <label class="c-mb-4">Địa chỉ <span class="text-danger">*</span></label>
+                                <input type="text" name="address" class="form-control " placeholder="Địa chỉ">
 
                             </div>
                             <div class="c-mb-12">
-                                <label class="c-mb-4">Điện thoại</label>
-                                <input type="text" name="title" class="form-control " placeholder="Điện thoại">
+                                <label class="c-mb-4">Điện thoại <span class="text-danger">*</span></label>
+                                <input type="number" name="phone" class="form-control " placeholder="Điện thoại">
 
                             </div>
                             <div class="c-mb-12">
-                                <label class="c-mb-4">Email</label>
-                                <input type="text" name="title" class="form-control " placeholder="Email">
+                                <label class="c-mb-4">Email <span class="text-danger">*</span></label>
+                                <input type="text" name="email" class="form-control " placeholder="Email">
 
                             </div>
 
@@ -71,19 +85,7 @@
 
             {!! widget('frontend.widget._section_widget_slide_ads') !!}
             {!! widget('frontend.widget._section_widget_iframe_right_1') !!}
-            <div class="ads-container mt-2">
-                <div class="steering-header">
-                    <a href="" class="c-pl-30 fw-600 text-uppercase lh-26 text-white"> Thống kê truy cập </a>
-                </div>
-                <div class="ads-content c-p-10">
-                    <span>Đang online: 1</span>
-                    <br>
-                    <span>Hôm nay: 125</span>
-                    <br>
-                    <span>Tất cả: 65656</span>
-                    <br>
-                </div>
-            </div>
+
             <div class="ads-container mt-2">
                 <div class="steering-header">
                     <a href="" class="c-pl-30 fw-600 text-uppercase lh-26 text-white"> Liên kết website </a>

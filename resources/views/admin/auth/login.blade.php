@@ -12,19 +12,24 @@
       <section class="ftco-section">
          <div class="container">
             <div class="row justify-content-center">
-               <div class="col-md-6 text-center mb-5">
-                  <h2 class="heading-section"></h2>
+               <div class="col-md-6 text-center mb-3">
+                   <img src="/assets/backend/login/images/logo.png" alt="" style="width: 120px">
+
+                   <h4 class="heading-section mt-4 font-weight-bold " style="color: #e68565;">
+                       HỆ THỐNG XÁC THỰC TỈNH THANH HÓA
+
+                   </h4>
                </div>
             </div>
             <div class="row justify-content-center">
-               <div class="col-md-12 col-lg-10">
-                  <div class="wrap d-md-flex">
-                     <div class="img" style="background-image: url(/assets/backend/login/images/bg-1.jpg);">
-                     </div>
-                     <div class="login-wrap p-4 p-md-5">
+               <div class="col-md-8 col-lg-8">
+                  <div class="wrap d-md-flex justify-content-center">
+{{--                     <div class="img" style="background-image: url(/assets/backend/login/images/bg-1.jpg);">--}}
+{{--                     </div>--}}
+                     <div class="login-wrap p-4 p-md-5 w-75">
                         <div class="d-flex">
                            <div class="w-100">
-                              <h3 class="mb-4">Sign In</h3>
+                              <h3 class="mb-4 " >Đăng nhập</h3>
                            </div>
                            <div class="w-100">
                               <p class="social-media d-flex justify-content-end">
@@ -69,7 +74,7 @@
                               </div>
                            </div>
                         </form>
-                        <p class="text-center">Not a member? <a data-toggle="tab" href="#signup">Sign Up</a></p>
+{{--                        <p class="text-center">Not a member? <a data-toggle="tab" href="#signup">Sign Up</a></p>--}}
                      </div>
                   </div>
                </div>

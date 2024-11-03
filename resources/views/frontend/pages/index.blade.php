@@ -32,11 +32,11 @@
                 <a href="" class="c-pl-30 fw-600 text-uppercase lh-26 text-white"> Thống kê truy cập </a>
             </div>
             <div class="ads-content c-p-10">
-                <span>Đang online: 1</span>
+                <span>Đang online: {{$onlineVisitors}}</span>
                 <br>
-                <span>Hôm nay: 125</span>
+                <span>Hôm nay: {{$todayVisits}}</span>
                 <br>
-                <span>Tất cả: 65656</span>
+                <span>Trong tuần: {{$weekVisits}}</span>
                 <br>
             </div>
         </div>

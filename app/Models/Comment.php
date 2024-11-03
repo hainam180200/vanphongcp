@@ -26,14 +26,14 @@ class Comment extends BaseModel {
         'deleted_at'
     ];
 	protected $fillable = [
-
-		'item_id',
-		'author_id',
+		'author',
 		'content',
-		'comment_parent',
-		'create_at',
 		'status',
-		'module',
+		'type',
+		'address',
+		'title',
+		'phone',
+		'email',
 
 	];
 

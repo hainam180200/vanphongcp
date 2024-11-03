@@ -181,7 +181,11 @@ return [
         ],
     ],
     'comment' => [
-        'title'=>"Quản lý bình luận",
+        'title'=>"Quản lý ý kiến",
+        'type' => [
+            '1' => 'Hỏi đáp',
+            '2' => 'Phản ánh'
+        ]
     ],
     'order' => [
         'title'=>"Quản lý đơn hàng",

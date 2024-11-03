@@ -272,6 +272,24 @@ View::composer('frontend.widget._menu', function ($view) {
         ->get();
     return $view->with('data', $data);
 });
+View::composer('frontend.widget._agency', function ($view) {
+    $data = Group::where('status', '=', 1)
+        ->where('module', '=', 'product-agency')
+        ->orderBy('order')->get();
+    return $view->with('data', $data);
+});
+View::composer('frontend.widget._field', function ($view) {
+    $data = Group::where('status', '=', 1)
+        ->where('module', '=', 'product-field')
+        ->orderBy('order')->get();
+    return $view->with('data', $data);
+});
+View::composer('frontend.widget._category', function ($view) {
+    $data = Group::where('status', '=', 1)
+        ->where('module', '=', 'product-category')
+        ->orderBy('order')->get();
+    return $view->with('data', $data);
+});
 //View::composer('frontend.widget._slide', function ($view) {
 //
 //    $data = Item::where('status', '=', 1)

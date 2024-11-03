@@ -17,16 +17,12 @@ class CategoryController extends Controller
     protected $module;
     public function __construct(Request $request)
     {
-
-        $this->module='product-category';
-
+        $this->module = 'product-category'; // Danh mục văn bản
         //set permission to function
         $this->middleware('permission:'. $this->module.'-list');
         $this->middleware('permission:'. $this->module.'-create', ['only' => ['create', 'store','duplicate']]);
         $this->middleware('permission:'. $this->module.'-edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:'. $this->module.'-delete', ['only' => ['destroy']]);
-
-
         if( $this->module!=""){
             $this->page_breadcrumbs[] = [
                 'page' => route('admin.'.$this->module.'.index'),
@@ -37,9 +33,7 @@ class CategoryController extends Controller
 
     public function index(Request $request)
     {
-
         ActivityLog::add($request, 'Truy cập danh sách '.$this->module);
-
         $data= Group::where('module','=',$this->module)->orderBy('order')->get();
         $data=$this->getHTMLCategory($data);
         $dataCategory = Group::where('module', '=', $this->module)->orderBy('order','asc')->get();
@@ -56,24 +50,13 @@ class CategoryController extends Controller
             'page' => '#',
             'title' => __("Thêm mới")
         ];
-
         $dataCategory = Group::where('module', '=', $this->module)->orderBy('order','asc')->get();
-
-        // lấy các thuộc tính 
-
-        // $attribute = Item::where('module','=','product-attribute')->where('status',1)->get();
-
-        // $dataAttribute = $this->buildAttributeCheckbox($attribute,'');
-
         ActivityLog::add($request, 'Vào form create '.$this->module);
         return view('admin.product.category.create_edit')
             ->with('module', $this->module)
             ->with('page_breadcrumbs', $this->page_breadcrumbs)
             ->with('dataCategory', $dataCategory);
-            // ->with('dataAttribute', $dataAttribute);
-
     }
-
 
     public function store(Request $request)
     {
@@ -82,15 +65,14 @@ class CategoryController extends Controller
         ],[
             'title.required' => __('Vui lòng nhập tiêu đề'),
         ]);
-        $input=$request->all();
-        $input['module']=$this->module;
+        $input = $request->all();
+        $input['module'] = $this->module;
         if($request->image){
             if($request->file('image')){
-                $input['image']= Files::upload_image($request->file('image','images',null,null,null,false));
+                $input['image'] = Files::upload_image($request->file('image','images',null,null,null,false));
             }
         }
-        $data=Group::create($input);
-
+        $data = Group::create($input);
         ActivityLog::add($request, 'Tạo mới thành công '.$this->module.' #'.$data->id);
         if($request->filled('submit-close')){
             return redirect()->route('admin.'.$this->module.'.index')->with('success',__('Thêm mới thành công !'));
@@ -100,10 +82,9 @@ class CategoryController extends Controller
         }
     }
 
-
     public function show(Request $request,$id)
     {
-        
+
     }
 
     public function edit(Request $request,$id)
@@ -128,13 +109,11 @@ class CategoryController extends Controller
     public function update(Request $request,$id)
     {
         $data =  Group::where('module', '=', $this->module)->findOrFail($id);
-
         $this->validate($request,[
             'title'=>'required',
         ],[
             'title.required' => __('Vui lòng nhập tiêu đề'),
         ]);
-
         $input=$request->all();
         $input['module']=$this->module;
         if($request->image){
@@ -143,7 +122,6 @@ class CategoryController extends Controller
             }
         }
         $data->update($input);
-
         ActivityLog::add($request, 'Cập nhật thành công '.$this->module.' #'.$data->id);
         if($request->filled('submit-close')){
             return redirect()->route('admin.'.$this->module.'.index')->with('success',__('Cập nhật thành công !'));
@@ -162,15 +140,8 @@ class CategoryController extends Controller
         return redirect()->back()->with('success',__('Xóa thành công !'));
     }
 
-
-
-
-
-
-
     public function update_field(Request $request)
     {
-
         $input=explode(',',$request->id);
         $field=$request->field;
         $value=$request->value;
@@ -183,14 +154,10 @@ class CategoryController extends Controller
                 'redirect'=>''
             ]);
         }
-
-
         $data=Group::where('module','=',$this->module)::whereIn('id',$input)->update([
             $field=>$value
         ]);
-
         ActivityLog::add($request, 'Cập nhật field thành công '.$this->module.' '.json_encode($whitelist).' #'.json_encode($input));
-
         return response()->json([
             'success'=>true,
             'message'=>__('Cập nhật thành công !'),
@@ -199,12 +166,9 @@ class CategoryController extends Controller
 
     }
 
-
     // AJAX Reordering function
     public function order(Request $request)
     {
-
-
         $source = e($request->get('source'));
         $destination = $request->get('destination');
 
@@ -212,11 +176,8 @@ class CategoryController extends Controller
         //dd($item);
         $item->parent_id = isset($destination)?$destination:0;
         $item->save();
-
         $ordering = json_decode($request->get('order'));
-
         $rootOrdering = json_decode($request->get('rootOrder'));
-
         if ($ordering) {
             foreach ($ordering as $order => $item_id) {
                 if ($itemToOrder = Group::where('module', '=', $this->module)->find($item_id)) {
@@ -261,8 +222,6 @@ class CategoryController extends Controller
                                       <span></span> ".HTML::entities($item->title)."
                                     </label>
                                 </div>";
-
-
                 }
                 else{
 

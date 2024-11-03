@@ -260,8 +260,8 @@ return [
         'icon' => 'm-menu__link-icon flaticon-interface-6',
         'elements' => [
             [
-                'label' => 'ID nhóm danh mục Flash Sale', // you know what label it is
-                'name' => 'sys_widget_flash_sale', // unique name for field
+                'label' => 'ID danh mục bài viết 1 (Dưới slide đầu tiên)', // you know what label it is
+                'name' => 'sys_widget_article_1', // unique name for field
                 'type' => 'text', // input fields type
                 'data' => 'string', // data type, string, int, boolean
                 'rules' => '', // validation rule of laravel
@@ -269,8 +269,8 @@ return [
                 'value' => '' // default value if you want
             ],
             [
-                'label' => 'ID nhóm danh mục quảng cáo 1 (Dưới banner ADS 1)', // you know what label it is
-                'name' => 'sys_id_widget_1', // unique name for field
+                'label' => 'ID danh mục bài viết 2 (Dưới banner thứ 2)', // you know what label it is
+                'name' => 'sys_widget_article_2', // unique name for field
                 'type' => 'text', // input fields type
                 'data' => 'string', // data type, string, int, boolean
                 'rules' => '', // validation rule of laravel
@@ -278,8 +278,8 @@ return [
                 'value' => '' // default value if you want
             ],
             [
-                'label' => 'Tên nhóm danh mục quảng cáo 1 (Dưới banner ADS 1)', // you know what label it is
-                'name' => 'sys_name_widget_1', // unique name for field
+                'label' => 'ID danh mục bài viết 3 (Dưới banner thứ 2)', // you know what label it is
+                'name' => 'sys_widget_article_3', // unique name for field
                 'type' => 'text', // input fields type
                 'data' => 'string', // data type, string, int, boolean
                 'rules' => '', // validation rule of laravel
@@ -287,8 +287,8 @@ return [
                 'value' => '' // default value if you want
             ],
             [
-                'label' => 'ID nhóm danh mục quảng cáo 2 (Dưới banner ADS 2)', // you know what label it is
-                'name' => 'sys_id_widget_2', // unique name for field
+                'label' => 'ID danh mục bài viết 4 (Dưới banner thứ 2)', // you know what label it is
+                'name' => 'sys_widget_article_4', // unique name for field
                 'type' => 'text', // input fields type
                 'data' => 'string', // data type, string, int, boolean
                 'rules' => '', // validation rule of laravel
@@ -296,8 +296,8 @@ return [
                 'value' => '' // default value if you want
             ],
             [
-                'label' => 'Tên nhóm danh mục quảng cáo 2 (Dưới banner ADS 2)', // you know what label it is
-                'name' => 'sys_name_widget_2', // unique name for field
+                'label' => 'ID danh mục bài viết 5 (Dưới banner thứ 3)', // you know what label it is
+                'name' => 'sys_widget_article_5', // unique name for field
                 'type' => 'text', // input fields type
                 'data' => 'string', // data type, string, int, boolean
                 'rules' => '', // validation rule of laravel
@@ -305,26 +305,8 @@ return [
                 'value' => '' // default value if you want
             ],
             [
-                'label' => 'ID nhóm danh mục quảng cáo 3 (Dưới banner ADS 3)', // you know what label it is
-                'name' => 'sys_id_widget_3', // unique name for field
-                'type' => 'text', // input fields type
-                'data' => 'string', // data type, string, int, boolean
-                'rules' => '', // validation rule of laravel
-                'class' => '', // any class for input
-                'value' => '' // default value if you want
-            ],
-            [
-                'label' => 'Tên nhóm danh mục quảng cáo 3 (Dưới banner ADS 3)', // you know what label it is
-                'name' => 'sys_name_widget_3', // unique name for field
-                'type' => 'text', // input fields type
-                'data' => 'string', // data type, string, int, boolean
-                'rules' => '', // validation rule of laravel
-                'class' => '', // any class for input
-                'value' => '' // default value if you want
-            ],
-            [
-                'label' => 'ID danh mục bài viết xuất hiện tại trang chủ  (nếu có nhiều thì ngăn cách bằng dấu phẩy)', // you know what label it is
-                'name' => 'sys_id_widget_article', // unique name for field
+                'label' => 'ID danh mục bài viết 6 (Dưới banner thứ 3)', // you know what label it is
+                'name' => 'sys_widget_article_6', // unique name for field
                 'type' => 'text', // input fields type
                 'data' => 'string', // data type, string, int, boolean
                 'rules' => '', // validation rule of laravel

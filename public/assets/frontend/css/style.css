@@ -1,0 +1,269 @@
+.content>div{
+    background: white;
+}
+/*menu*/
+
+.main-menu  {
+    list-style: none;
+    background: linear-gradient(to bottom, rgba(252,28,28,1) 0%, rgba(219,7,7,1) 50%, rgba(252,28,28,1) 100%);
+    text-align: center;
+}
+.main-menu > li {
+    padding: 8px;
+    position: relative;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+.main-menu a {
+    color: white;
+    text-decoration: none;
+}
+
+.main-menu .submenu {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: 100%;
+    left: 0;
+    padding-left: 0;
+    list-style: none;
+}
+.main-menu li:hover .submenu {
+    display: block;
+    width: 200px;
+    z-index: 1;
+}
+
+.main-menu .submenu a {
+    color: black;
+    display: flex;
+    padding: 10px;
+
+}
+.main-menu .submenu li:hover {
+    background-color: #fea20e;
+}
+.main-menu .submenu li:hover a{
+    color: white;
+}
+/*article*/
+.article-slide{
+    border: 1px solid #ddd;
+}
+
+.article-item img{
+    width: 60px;
+    height: 50px;
+    margin-right: 4px;
+    text-align: left;
+}
+.article-image{
+    width: 80px;
+    height: 60px;
+}
+.article-image img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.article-item.active {
+    background: #B80002 none repeat scroll 0 0;
+}
+.article-item.active div{
+    color: white;
+}
+.article-text{
+    flex: 1
+}
+#article-content .article-content-img{
+    height: 385px;
+
+}
+#article-content img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+#article-content{
+    background-color: #eeeeee;
+}
+#article-content div{
+    font-weight: 600;
+}
+/*article default*/
+.article-default {
+    background: #ffffff none repeat scroll 0 0;
+    border: 1px solid #e0e0e0;
+    padding: 5px 0;
+    flex: 1;
+}
+.article-default .article-header {
+    border-bottom: 2px solid #eabc00;
+    display: inline-block;
+    height: 32px;
+    list-style: outside none none;
+    margin: 0 0 5px;
+    padding: 0;
+    position: relative;
+}
+.article-default .article-header a {
+    border-bottom: 6px solid #b80002;
+    color: #ae0002;
+    display: inline-block;
+    font: bold 10pt / 30px Arial;
+    padding: 0 10px;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.article-default .article-content .article-content-first img{
+    float: left;
+    height: 100px;
+    margin-right: 15px;
+    width: 140px;
+}
+
+.clear {
+    clear: both;
+}
+.article-default .article-content .article-content-item ul {
+    list-style: outside none square;
+    margin-top: 10px;
+    padding-left: 15px;
+}
+.article-default .article-content .article-content-item li, .article-default .article-content .article-content-item li span {
+    color: #b82805;
+    margin: 0;
+    padding: 2px 0;
+}
+
+.steering-scroll{
+    background: #fff none repeat scroll 0 0;
+    border-radius: 5px 5px 0 0;
+    margin-bottom: 10px;
+}
+.steering-scroll-list {
+    height: 400px;
+    overflow: hidden;
+    position: relative;
+    border: 1px solid #e0e0e0;
+    border-radius: 0 0 5px 5px;
+
+}
+.steering-scroll-list ul {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    position: absolute;
+}
+.steering-scroll-list ul li {
+    padding: 10px;
+    white-space: normal;
+}
+.steering-header{
+    background: url("../image/badge.png") no-repeat scroll left 7px center, rgba(0, 0, 0, 0) url("../image/redbar.png") repeat scroll 0 0;
+    border-radius: 5px 5px 0 0;
+    height: 25px;
+}
+.ads-content iframe{
+    width: 100%;
+    border-radius: 0 0 5px 5px;
+}
+.ads-content img{
+    width: 100%;
+    border-radius: 5px;
+}
+.footer {
+    background: linear-gradient(to bottom, rgba(252,28,28,1) 0%, rgba(219,7,7,1) 0%, rgba(217,11,11,1) 100%);
+    box-shadow: 0 0 7px 0 rgba(0, 0, 0, 0.5);
+    margin: 0 auto;
+    text-align: center;
+}
+/* Thanh điều hướng */
+.menu-bar {
+    position: fixed;
+    top: 0;
+    right: 0;
+    padding: 10px;
+    background-color: #2196F3;
+    color: white;
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.menu-icon {
+    font-size: 24px;
+    cursor: pointer;
+}
+/* Menu bên trái */
+.side-menu {
+    position: fixed;
+    top: 0;
+    left: -250px;
+    width: 250px;
+    height: 100%;
+    background: linear-gradient(to bottom, rgba(252,28,28,1) 0%, rgba(219,7,7,1) 50%, rgba(252,28,28,1) 100%);
+    color: white;
+    padding: 20px;
+    transition: 0.3s;
+    overflow-y: auto;
+    z-index: 999;
+
+}
+.side-menu ul {
+    list-style: none;
+    padding: 0;
+}
+.side-menu ul li {
+    padding: 10px 0;
+}
+.side-menu ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+}
+/* Checkbox ẩn để điều khiển menu */
+#menu-toggle {
+    display: none;
+}
+/* Hiệu ứng mở menu khi checkbox được chọn */
+#menu-toggle:checked + .menu-bar + .side-menu {
+    left: 0;
+}
+/* Hiệu ứng làm mờ nền */
+#menu-toggle:checked + .menu-bar + .side-menu + .overlay {
+    display: block;
+}
+.menu-category-mobile {
+    z-index: 1;
+}
+/* Lớp phủ mờ nền */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: none;
+    z-index: 998;
+}
+/* Biểu tượng chuyển đổi */
+.menu-icon::before {
+    content: "\f0c9"; /* Icon ba thanh */
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+}
+#menu-toggle:checked + .menu-bar .menu-icon::before {
+    content: "\f00d"; /* Icon dấu X */
+}
+@media screen and (max-width: 768px) {
+    #article-content .article-content-img{
+        height: 200px;
+
+    }
+}
+.news-detail img{
+    max-width: 100% !important;
+}

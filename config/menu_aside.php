@@ -66,10 +66,10 @@ return [
             ]
         ],
         [
-            'section' => 'Sản phẩm',
+            'section' => 'Văn bản',
         ],
         [
-            'title' => 'Quản lý sản phẩm',
+            'title' => 'Quản lý văn bản',
             'desc' => '',
             'icon' => 'flaticon-multimedia-3',
             'bullet' => 'dot',
@@ -77,66 +77,33 @@ return [
             'root' => true,
             'submenu' => [
                 [
-                    'title' => 'Nhóm sản phẩm',
-                    'route' => 'admin.product-group.index',
-                    'page' => ''
-                ],
-                [
-                    'title' => 'Danh mục sản phẩm',
+                    'title' => 'Danh mục văn bản',
                     'route' => 'admin.product-category.index',
                     'page' => ''
                 ],
                 [
-                    'title' => 'Quản lý sản phẩm',
-                    'route' => 'admin.product.index',
-                    'page' => '',
+                    'title' => 'Loại văn bản',
+                    'route' => 'admin.product-group.index',
+                    'page' => ''
                 ],
                 [
-                    'title' => 'Quản lý thuộc tính',
-                    'route' => 'admin.product-attribute.index',
+                    'title' => 'Lĩnh vực',
+                    'route' => 'admin.product-field.index',
+                    'page' => ''
+                ],
+                [
+                    'title' => 'Cơ quan ban hành',
+                    'route' => 'admin.product-agency.index',
+                    'page' => ''
+                ],
+                [
+                    'title' => 'Quản lý văn bản',
+                    'route' => 'admin.product.index',
                     'page' => '',
                 ],
             ]
         ],
-        [
-            'section' => 'Đơn hàng',
-        ],
-        [
-            'title' => 'Thống kê đơn hàng',
-            'icon' => 'fab fa-get-pocket',
-            'bullet' => 'line',
-            'route' => 'admin.order.index',
-            'page' => ''
 
-        ],
-        [
-            'section' => 'Bình luận',
-        ],
-        [
-            'title' => 'Quản lý bình luận',
-            'icon' => 'fab fa-get-pocket',
-            'bullet' => 'line',
-            'route' => 'admin.comment.index',
-            'page' => ''
-
-        ],
-        [
-            'section' => 'Quản lý trả góp',
-        ],
-        [
-            'title' => 'Đơn vị trả góp',
-            'icon' => 'fab fa-creative-commons-nc',
-            'bullet' => 'line',
-            'route' => 'admin.installment.index',
-            'page' => ''
-        ],
-        [
-            'title' => 'Yêu cầu trả góp',
-            'icon' => 'far fa-money-bill-alt',
-            'bullet' => 'line',
-            'route' => 'admin.installment-report.index',
-            'page' => ''
-        ],
         [
             'section' => 'Hệ thống',
         ],
@@ -166,15 +133,15 @@ return [
             'page' => ''
 
         ],
-        [
-            'title' => 'Cấu hình menu top',
-            'icon' => 'flaticon-menu-1',
-            'bullet' => 'line',
-            'permission' => 'user',
-            'route' => 'admin.menutop-category.index',
-            'page' => ''
-
-        ],
+//        [
+//            'title' => 'Cấu hình menu top',
+//            'icon' => 'flaticon-menu-1',
+//            'bullet' => 'line',
+//            'permission' => 'user',
+//            'route' => 'admin.menutop-category.index',
+//            'page' => ''
+//
+//        ],
         [
             'title' => 'Cấu hình menu chính',
             'icon' => 'flaticon-grid-menu',

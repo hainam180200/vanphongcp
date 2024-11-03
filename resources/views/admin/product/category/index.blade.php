@@ -1,7 +1,5 @@
 {{-- Extends layout --}}
 @extends('admin._layouts.master')
-
-
 @section('action_area')
     <div class="d-flex align-items-center text-right">
         <div class="btn-group">
@@ -20,7 +18,6 @@
         </div>
     </div>
 @endsection
-
 {{-- Content --}}
 @section('content')
 
@@ -33,9 +30,7 @@
             </div>
             <div class="card-toolbar"></div>
         </div>
-
         <div class="card-body">
-
             <div class="row">
                 <div class="col-sm-8">
                     <div class="well">
@@ -54,7 +49,6 @@
                             <p class="success-indicator" style="display:none; margin-right: 15px;float: left;color: #34bfa3;font-size: 14px">
                                 <span class="glyphicon glyphicon-ok"></span>   {{__('Danh mục đã được cập nhật !')}}
                             </p>
-
                         </div>
                         <div class="" style="clear: both"></div>
                         <div class="dd" id="nestable">
@@ -75,8 +69,6 @@
         </div>
     </div>
 
-
-
     <!-- loadModal create_edit  Modal -->
     <div class="modal fade" id="loadModal" tabindex="-1" role="dialog" style="display: none;" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
@@ -84,6 +76,7 @@
             </div>
         </div>
     </div>
+
     <!-- delete item Modal -->
     <div class="modal fade" id="deleteModal">
         <div class="modal-dialog">
@@ -107,9 +100,6 @@
             </div>
         </div>
     </div>
-
-
-
 @endsection
 
 {{-- Styles Section --}}
@@ -120,13 +110,9 @@
 @section('scripts')
 
     <script>
-
-
-
         //edit button
         $('.loadModal_toggle,.edit_toggle').each(function (index, elem) {
             $(elem).click(function (e) {
-
                 e.preventDefault();
                 $('#loadModal .modal-content').empty();
                 $('#loadModal .modal-content').load($(this).data("url"),function(){
@@ -135,11 +121,9 @@
                 });
             });
         });
-
         //delete button
         $('.delete_toggle').each(function (index, elem) {
             $(elem).click(function (e) {
-
                 e.preventDefault();
                 $('#deleteModal .id').attr('value', $(elem).attr('rel'));
                 $('#deleteModal').modal('toggle');
@@ -182,19 +166,14 @@
             }
 
         });
-
-
-
         //nestable
         $(function () {
             $('.dd').nestable({
                 dropCallback: function (details) {
-
                     var order = new Array();
                     $("li[data-id='" + details.destId + "']").find('ol:first').children().each(function (index, elem) {
                         order[index] = $(elem).attr('data-id');
                     });
-
                     if (order.length === 0) {
                         var rootOrder = new Array();
                         $("#nestable > ol > li").each(function (index, elem) {
@@ -203,24 +182,24 @@
                     }
 
                     $.post('{{route('admin.'.$module.'.order')}}',
-                        {
-                            _token:'{{ csrf_token() }}',
-                            source: details.sourceId,
-                            destination: details.destId,
-                            order: JSON.stringify(order),
-                            rootOrder: JSON.stringify(rootOrder)
-                        },
-                        function (data) {
-                            // console.log('data '+data);
-                        })
-                        .done(function () {
+                    {
+                        _token:'{{ csrf_token() }}',
+                        source: details.sourceId,
+                        destination: details.destId,
+                        order: JSON.stringify(order),
+                        rootOrder: JSON.stringify(rootOrder)
+                    },
+                    function (data) {
+                        // console.log('data '+data);
+                    })
+                    .done(function () {
 
-                            $(".success-indicator").fadeIn(100).delay(1000).fadeOut();
-                        })
-                        .fail(function () {
-                        })
-                        .always(function () {
-                        });
+                        $(".success-indicator").fadeIn(100).delay(1000).fadeOut();
+                    })
+                    .fail(function () {
+                    })
+                    .always(function () {
+                    });
                 }
             });
 
@@ -231,8 +210,6 @@
         {
             action =$(this).attr('data-action');
             if (action === 'expand-all') {
-
-
                 $(this).text('Thu gọn');
                 $(this).attr('data-action','collapse-all');
                 //thực hiện thao tác expand-all
@@ -244,17 +221,12 @@
                 //thực hiện thao tác collapse-all
                 $('.dd').nestable('collapseAll');
             }
-
         });
         //end nestable action
-
         $("#nestable input[type='checkbox']").change(function () {
-
             //click children
             $(this).closest('.dd-item').find("input[type='checkbox']").prop('checked', this.checked);
             var is_checked = $(this).is(':checked');
-
-
             $("#nestable input[type='checkbox']").each(function (index, elem) {
 
                 if ($(elem).is(':checked')) {
@@ -262,7 +234,6 @@
                 }
             });
         });
-
     </script>
 
 

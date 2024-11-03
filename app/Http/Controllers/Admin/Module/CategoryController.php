@@ -13,12 +13,10 @@ use App\Library\Files;
 
 class CategoryController extends Controller
 {
-
     protected $page_breadcrumbs;
     protected $module;
     public function __construct(Request $request)
     {
-
         $this->module=$request->segments()[1]??"";
 
         //set permission to function
@@ -26,7 +24,6 @@ class CategoryController extends Controller
         $this->middleware('permission:'. $this->module.'-create', ['only' => ['create', 'store']]);
         $this->middleware('permission:'. $this->module.'-edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:'. $this->module.'-delete', ['only' => ['destroy']]);
-
 
         if( $this->module!=""){
             $this->page_breadcrumbs[] = [
@@ -40,11 +37,9 @@ class CategoryController extends Controller
     {
 
         ActivityLog::add($request, 'Truy cập danh sách '.$this->module);
-
         $data= Group::where('module','=',$this->module)->orderBy('order')->get();
         $data=$this->getHTMLCategory($data);
         $dataCategory = Group::where('module', '=', $this->module)->orderBy('order','asc')->get();
-
 
         return view('admin.module.category.index')
             ->with('module', $this->module)
@@ -62,15 +57,12 @@ class CategoryController extends Controller
         ];
 
         $dataCategory = Group::where('module', '=', $this->module)->orderBy('order','asc')->get();
-
         ActivityLog::add($request, 'Vào form create '.$this->module);
         return view('admin.module.category.create_edit')
             ->with('module', $this->module)
             ->with('page_breadcrumbs', $this->page_breadcrumbs)
             ->with('dataCategory', $dataCategory);
-
     }
-
 
     public function store(Request $request)
     {
@@ -81,12 +73,13 @@ class CategoryController extends Controller
         ]);
         $input=$request->all();
         $input['module']=$this->module;
+
         if($request->image){
             if($request->file('image')){
                 $input['image']= Files::upload_image($request->file('image','images',null,null,null,true));
             }
         }
-        $data=Group::create($input);
+        $data = Group::create($input);
 
         ActivityLog::add($request, 'Tạo mới thành công '.$this->module.' #'.$data->id);
         if($request->filled('submit-close')){
@@ -100,9 +93,7 @@ class CategoryController extends Controller
 
     public function show(Request $request,$id)
     {
-        //$data = Group::findOrFail($id);
-        //ActivityLog::add($request, 'Show '.$this->module.' #'.$data->id);
-        //return view('admin.module.category.show', compact('datatable'));
+
     }
 
     public function edit(Request $request,$id)
@@ -161,12 +152,6 @@ class CategoryController extends Controller
         return redirect()->back()->with('success',__('Xóa thành công !'));
     }
 
-
-
-
-
-
-
     public function update_field(Request $request)
     {
 
@@ -182,12 +167,9 @@ class CategoryController extends Controller
                 'redirect'=>''
             ]);
         }
-
-
         $data=Group::where('module','=',$this->module)::whereIn('id',$input)->update([
             $field=>$value
         ]);
-
         ActivityLog::add($request, 'Cập nhật field thành công '.$this->module.' '.json_encode($whitelist).' #'.json_encode($input));
 
         return response()->json([
@@ -198,12 +180,9 @@ class CategoryController extends Controller
 
     }
 
-
     // AJAX Reordering function
     public function order(Request $request)
     {
-
-
         $source = e($request->get('source'));
         $destination = $request->get('destination');
 
@@ -268,7 +247,7 @@ class CategoryController extends Controller
                     $result.="<div class=\"m-checkbox\">
                                     <label class=\"checkbox checkbox-outline\">
                                     <input  type=\"checkbox\" rel=\"{$item->id}\" class=\"children_of_{$item->parent_id}\"  >
-                                    <span></span> ".HTML::entities($item->title)."
+                                    <span></span> ".HTML::entities($item->title).  " (ID: " .HTML::entities($item->id). ")" ."
                                     </label>
                                 </div>";
                 }

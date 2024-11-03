@@ -108,81 +108,33 @@ return [
         ],
     ],
 
-    'game-group' => [
-        'title'=>"Nhóm game",
-        'status' => [
-            '1' => 'Hoạt động',
-            '0' => 'Ngừng hoạt động',
-
-        ],
-    ],
-    'game' => [
-        'title'=>"Tất cả game",
-        'status' => [
-            '1' => 'Hoạt động',
-            '0' => 'Ngừng hoạt động',
-
-        ],
-
-        'params_field'=>[
-            [
-                'label' => 'Thể loại game', // you know what label it is
-                'name' => 'params[game_type]', // unique name for field
-                'type' => 'text', // input fields type
-                'data' => 'string', // data type, string, int, boolean
-                'rules' => '', // validation rule of laravel
-                'div_parent_class' => 'col-12 col-md-12', // div parent class for input
-                'class' => '', // any class for input
-                'value' => '' // default value if you want
-            ],
-
-
-            [
-                'label' => 'Năm phát hành', // you know what label it is
-                'name' => 'params[release_at]', // unique name for field
-                'type' => 'text', // input fields type
-                'data' => 'string', // data type, string, int, boolean
-                'rules' => '', // validation rule of laravel
-                'div_parent_class' => 'col-12 col-md-12', // div parent class for input
-                'class' => '', // any class for input
-                'value' => '' // default value if you want
-            ],
-
-            [
-                'label' => 'Idol đang chơi', // you know what label it is
-                'name' => 'params[idol_count]', // unique name for field
-                'type' => 'text', // input fields type
-                'data' => 'string', // data type, string, int, boolean
-                'rules' => '', // validation rule of laravel
-                'div_parent_class' => 'col-12 col-md-12', // div parent class for input
-                'class' => '', // any class for input
-                'value' => '' // default value if you want
-            ],
-            [
-                'label' => 'Lượt thuê Idol với game này', // you know what label it is
-                'name' => 'params[rent_count]', // unique name for field
-                'type' => 'text', // input fields type
-                'data' => 'string', // data type, string, int, boolean
-                'rules' => '', // validation rule of laravel
-                'div_parent_class' => 'col-12 col-md-12', // div parent class for input
-                'class' => '', // any class for input
-                'value' => '' // default value if you want
-            ],
-        ],
-
-    ],
     //-------------------- product --------------------//
     'product-category' => [
-        'title'=>"Danh mục sản phẩm",
+        'title'=>"Danh mục văn bản",
         'status' => [
             '1' => 'Hoạt động',
             '0' => 'Ngừng hoạt động',
 
         ],
     ],
-
     'product-group' => [
-        'title'=>"Nhóm sản phẩm",
+        'title'=>"Loại văn bản",
+        'status' => [
+            '1' => 'Hoạt động',
+            '0' => 'Ngừng hoạt động',
+
+        ],
+    ],
+    'product-field' => [
+        'title'=>"Lĩnh vực",
+        'status' => [
+            '1' => 'Hoạt động',
+            '0' => 'Ngừng hoạt động',
+
+        ],
+    ],
+    'product-agency' => [
+        'title'=>"Cơ quan ban hành",
         'status' => [
             '1' => 'Hoạt động',
             '0' => 'Ngừng hoạt động',
@@ -190,7 +142,7 @@ return [
         ],
     ],
     'product' => [
-        'title'=>"Tất cả sản phẩm",
+        'title'=>"Tất cả văn bản",
         'status' => [
             '1' => 'Hoạt động',
             '0' => 'Ngừng hoạt động',
@@ -387,13 +339,16 @@ return [
         'key'=>"advertise",
         'title'=>"Tất cả quảng cáo",
         'position' => [
-            'SLIDE' => 'Slide',
-            'BANNER_SALES' => 'Banner Sales',
-            'BANNER_ADS_1' => 'Banner ADS 1',
-            'BANNER_ADS_2' => 'Banner ADS 2',
-            'BANNER_ADS_3' => 'Banner ADS 3',
-            'BANNER_ADS_4' => 'Banner ADS 4',
-            'BANNER_NATURE' => 'Banner dịch vụ',
+            'SLIDES_ADS_1' => 'Slide đầu trang',
+            'SLIDES_ADS_2' => 'Slide góc phải',
+            'BANNER_RIGHT_ADS_1' => 'Banner góc phải 1',
+            'BANNER_RIGHT_ADS_2' => 'Banner góc phải 2',
+            'BANNER_LEFT_ADS_1' => 'Banner bên trái 1',
+            'BANNER_LEFT_ADS_2' => 'Banner bên trái 2',
+            'BANNER_LEFT_ADS_3' => 'Banner bên trái 3',
+            'BANNER_LEFT_ADS_4' => 'Banner bên trái 4',
+            'IFRAME_ADS_1' => 'Iframe góc phải 1',
+            'IFRAME_ADS_2' => 'Iframe góc phải 2',
         ],
         'status' => [
             '1' => 'Hoạt động',

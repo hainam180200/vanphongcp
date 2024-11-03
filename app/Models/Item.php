@@ -75,6 +75,7 @@ class Item extends BaseModel
         'is_installment',
         'created_at',
         'ended_at',
+        'pdf_file',
 
     ];
 

@@ -13,8 +13,8 @@
             <div class="input-icon">
                 <input type="text" class="form-control" id="txtSearch" placeholder="Search...">
                 <span>
-                                    <i class="flaticon2-search-1 icon-md"></i>
-                                </span>
+                    <i class="flaticon2-search-1 icon-md"></i>
+                </span>
             </div>
 
             <div class="nav-search-in-value" style="display: none;">
@@ -42,11 +42,8 @@
                         margin-bottom: 0.2rem;
                     }
 
-
                 </style>
-
             </div>
-
             @if ($errors->has('title'))
                 <span class="form-text text-danger">{{ $errors->first('title') }}</span>
             @endif

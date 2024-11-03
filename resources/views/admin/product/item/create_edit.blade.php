@@ -1,7 +1,6 @@
 {{-- Extends layout --}}
 @extends('admin._layouts.master')
 
-
 @section('action_area')
     <div class="d-flex align-items-center text-right">
         <a href="{{route('admin.'.$module.'.index')}}"
@@ -9,9 +8,6 @@
             <i class="ki ki-long-arrow-back icon-sm"></i>
             Back
         </a>
-
-
-
         <div class="btn-group">
             <button type="button" class="btn btn-success font-weight-bolder btn-submit-custom" data-form="formMain" data-submit-close="1">
                 <i class="ki ki-check icon-sm"></i>
@@ -20,7 +16,6 @@
                 @else
                     {{__('Thêm mới')}}
                 @endif
-
             </button>
             <button type="button" class="btn btn-success dropdown-toggle dropdown-toggle-split btn-submit-dropdown"
                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -39,16 +34,9 @@
                             </span>
                         </button>
                     </li>
-
                 </ul>
             </div>
         </div>
-
-
-
-
-
-
     </div>
 @endsection
 
@@ -71,19 +59,13 @@
                             {{__($page_breadcrumbs[0]['title'])}} <i class="mr-2"></i>
                         </h3>
                     </div>
-
                 </div>
-
                 <div class="card-body">
-
-
                     {{-----group_id------}}
                     <div class="form-group row">
                         <label  class="col-12">{{ __('Danh mục cha') }}</label>
                         <div class="col-6">
-
-                            <select name="group_id[]" class="form-control select2 col-md-5" id="kt_select2_2" multiple data-placeholder="-- {{__('Không chọn')}} --"   style="width: 100%" >
-
+                            <select name="group_id[]" class="form-control select2 col-md-5" id="kt_select2_2"  data-placeholder="-- {{__('Không chọn')}} --"   style="width: 100%" >
                                 @if( !empty(old('group_id')) )
                                     {!!\App\Library\Helpers::buildMenuDropdownList($dataCategory,old('group_id')) !!}
                                 @else
@@ -96,14 +78,11 @@
                                     {!!\App\Library\Helpers::buildMenuDropdownList($dataCategory,$itSelect) !!}
                                 @endif
                             </select>
-
                             @if($errors->has('group_id'))
                                 <div class="form-control-feedback">{{ $errors->first('group_id') }}</div>
                             @endif
                         </div>
                     </div>
-
-
                     {{-----title------}}
                     <div class="form-group row">
                         <div class="col-12 col-md-12">
@@ -115,19 +94,14 @@
                                 <span class="form-text text-danger">{{ $errors->first('title') }}</span>
                             @endif
                         </div>
-
                     </div>
-
                     {{-----slug------}}
                     <div class="form-group row">
                         <div class="col-12 col-md-12">
                             <label>{{ __('Permalink') }}:</label>
-
                             <span class="">
                                 <a  id="permalink" class="permalink" target="_blank" href="{{Request::getSchemeAndHttpHost()}}/{{ old('slug', isset($data) ? $data->slug : null) }}">
-
                                 <span class="default-slug">{{Request::getSchemeAndHttpHost()}}/<span id="label-slug" data-override-edit="0">{{ old('slug', isset($data) ? $data->slug : null) }}</span></span>
-
                                 </a>
                                 <input type="text" value=""  class="form-control" id="input-slug-edit" style="width: auto !important;display: none"/>
                                 <a  class="btn btn-light-primary font-weight-bolder mr-2" id="btn-slug-edit">Chỉnh sửa</a>
@@ -139,32 +113,17 @@
                                 <input type="hidden" id="is_slug_override" name="is_slug_override" value="{{ old('is_slug_override', isset($data) ? $data->is_slug_override : null) }}" >
                             </span>
                         </div>
-
-                    </div>
-
-
-
-                    {{-----insurance------}}
-                    <div class="form-group row">
-                        <div class="col-12 col-md-12">
-                            <label for="locale">{{ __('Bảo hành') }}:</label>
-                            <textarea id="insurance" name="insurance" class="form-control ckeditor-basic" data-height="150"  data-startup-mode="">{{ old('insurance', isset($data) ? $data->insurance : null) }}</textarea>
-                            @if ($errors->has('insurance'))
-                                <span class="form-text text-danger">{{ $errors->first('insurance') }}</span>
-                            @endif
-                        </div>
                     </div>
                     {{-----description------}}
                     <div class="form-group row">
                         <div class="col-12 col-md-12">
-                            <label for="locale">{{ __('Mô tả') }}:</label>
+                            <label for="locale">{{ __('Trích yếu') }}:</label>
                             <textarea id="description" name="description" class="form-control ckeditor-basic" data-height="150"  data-startup-mode="" >{{ old('description', isset($data) ? $data->description : null) }}</textarea>
                             @if ($errors->has('description'))
                                 <span class="form-text text-danger">{{ $errors->first('description') }}</span>
                             @endif
                         </div>
                     </div>
-
                     {{-----content------}}
                     <div class="form-group row">
                         <div class="col-12 col-md-12">
@@ -175,68 +134,6 @@
                             @endif
                         </div>
                     </div>
-
-
-                    <div class="form-group row">
-                        {{-- target --}}
-                        <div class="col-12 col-md-4">
-                            <label  class="form-control-label">{{ __('Kiểu mở link:') }}</label>
-                            {{Form::select('target',[''=>'-- Không chọn --',1=>"Mở tab mới",2=>"Mở popup"],old('target', isset($data) ? $data->target : null),array('class'=>'form-control'))}}
-                            @if($errors->has('target'))
-                                <div class="form-control-feedback">{{ $errors->first('target') }}</div>
-                            @endif
-                        </div>
-
-
-                        {{-- Url Link --}}
-                        <div class="col-12 col-md-4">
-                            <label  class="form-control-label">{{ __('Url Link:') }}</label>
-                            <input type="text"  name="url" value="{{ old('url', isset($data) ? $data->url : null) }}"
-                                   placeholder="{{ __('Url Link') }}"
-                                   class="form-control {{ $errors->has('url') ? ' is-invalid' : '' }}">
-                            @if($errors->has('url'))
-                                <div class="form-control-feedback">{{ $errors->first('url') }}</div>
-                            @endif
-                        </div>
-                        {{-- Url Link --}}
-                        <div class="col-12 col-md-4">
-                            <label  class="form-control-label">{{ __('Trả góp:') }}</label>
-                            {{Form::select('is_installment',(config('module.'.$module.'.installment')??[]),old('is_installment', isset($data) ? $data->is_installment : null),array('class'=>'form-control'))}}
-                            @if($errors->has('is_installment'))
-                                <div class="form-control-feedback">{{ $errors->first('is_installment') }}</div>
-                            @endif
-                        </div>
-                        {{-- is_point --}}
-                        <div class="col-12 col-md-4" style="margin-top: 15px">
-                            <label  class="form-control-label">{{ __('Point hiển thị:') }}</label>
-                            {{Form::select('is_point',(config('module.'.$module.'.is_point')??[]),old('is_point', isset($data) ? $data->is_point : null),array('class'=>'form-control'))}}
-                            @if($errors->has('is_point'))
-                                <div class="form-control-feedback">{{ $errors->first('is_point') }}</div>
-                            @endif
-                        </div>
-                        {{-- number_point --}}
-                        <div class="col-12 col-md-4" style="margin-top: 15px">
-                            <label  class="form-control-label">{{ __('Số sản phẩm còn lại hiển trị trên point:') }}</label>
-                            <input type="text"  name="number_point" value="{{ old('number_point', isset($data) ? $data->number_point : null) }}"
-                                    placeholder="{{ __('Số sản phẩm còn lại hiển trị trên point') }}"
-                                    class="form-control {{ $errors->has('number_point') ? ' is-invalid' : '' }}">
-                            @if($errors->has('is_point'))
-                                <div class="form-control-feedback">{{ $errors->first('number_point') }}</div>
-                            @endif
-                        </div>
-
-                        {{-- position --}}
-                        @if(!empty(config('module.'.$module.'.position')))
-                        <div class="col-12 col-md-4">
-                            <label  class="form-control-label">{{ __('Vị trí hiển thị') }}</label>
-                            {{Form::select('position',[''=>'-- Không chọn --']+(config('module.'.$module.'.position')??[]),old('position', isset($data) ? $data->position : null),array('class'=>'form-control'))}}
-                            @if($errors->has('position'))
-                                <div class="form-control-feedback">{{ $errors->first('position') }}</div>
-                            @endif
-                        </div>
-                        @endif
-                    </div>
-
                     {{-----gallery block------}}
                     <div class="form-group row">
                         {{-----image------}}
@@ -267,76 +164,36 @@
                                 @endif
                             </div>
                         </div>
-                        {{-----icon------}}
-                        <div class="col-md-4">
-                            <label for="locale">{{ __('Ảnh icon') }}:</label>
-                            <div class="">
-                                <div class="fileinput  {{ old('image_icon', isset($data) ? $data->image_icon : null)!=""?"fileinput-exists":"fileinput-new" }}  " data-provides="fileinput">
-                                    <div class="fileinput-new thumbnail" style="width: 150px; height: 150px;">
-                                        <img src="/assets/backend/images/empty-photo.jpg" data-src="/assets/backend/images/empty-photo.jpg" alt="">
-                                    </div>
-                                    <div class="fileinput-preview fileinput-exists thumbnail" style="width: 150px; height: 150px;">
-                                        @if(old('image_icon', isset($data) ? $data->image_icon : null)!="")
-                                            <img src="{{ old('image_icon', isset($data) ? \App\Library\Files::media($data->image_icon) : null) }}">
-                                            <input type="hidden" name="image_icon_oldest" value="1">
-                                        @endif
-                                    </div>
-                                    <div>
-                                            <span class="btn btn-default btn-file">
-                                                <span class="fileinput-new">Chọn ảnh icon</span>
-                                                <span class="fileinput-exists">Đổi ảnh icon</span>
-                                                    <input type="file" name="image_icon">
-                                            </span>
-                                        <a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Xóa</a>
-                                    </div>
-                                </div>
-                                @if ($errors->has('image_icon'))
-                                    <span class="form-text text-danger">{{ $errors->first('image_icon') }}</span>
+                    </div>
+                    {{--  File pdf--}}
+                    <div class="form-group row">
+                        {{-- PDF Upload --}}
+                        <div class="col-md-6">
+                            <label for="pdf" class="form-label">{{ __('Tài liệu PDF') }}:</label>
+                            <div class="input-group">
+                                <label class="input-group-text btn btn-primary" for="pdfInput">
+                                    <i class="bi bi-file-earmark-pdf"></i> {{ isset($data) && $data->pdf_file ? "Đổi file PDF" : "Chọn file PDF" }}
+                                </label>
+                                <input type="file" class="form-control d-none" id="pdfInput" name="pdf" accept=".pdf">
+                            </div>
+                            <div class="mt-2" id="pdfFileName" style="display: {{ isset($data) && $data->pdf_file ? 'block' : 'none' }};">
+                                <span class="btn btn-light-primary font-weight-bolder mr-2">
+                                    <i class="bi bi-file-earmark"></i>
+                                    <a download="{{ isset($data) && isset($data->pdf_file) ? basename($data->pdf_file) : '' }}" href="{{isset($data) && isset($data->pdf_file) ? \App\Library\Files::media($data->pdf_file) : '' }}" id="fileNameText">{{ isset($data) && $data->pdf_file ? basename($data->pdf_file) : '' }}</a>
+                                </span>
+                                @if (isset($data) && isset($data->pdf_file))
+                                    <a href="#"  data-file="{{\App\Library\Files::media($data->pdf_file)}}" class="pdf-link btn btn-success font-weight-bolder ms-2">{{ __('Xem PDF') }}</a>
                                 @endif
                             </div>
-                        </div>
-                         {{-----banner------}}
-                         <div class="col-md-4">
-                            <label for="locale">{{ __('Ảnh Banner') }}:</label>
-                            <div class="">
-                                <div class="fileinput  {{ old('image_banner', isset($data) ? $data->image_banner : null)!=""?"fileinput-exists":"fileinput-new" }}  " data-provides="fileinput">
-                                    <div class="fileinput-new thumbnail" style="width: 150px; height: 150px;">
-                                        <img src="/assets/backend/images/empty-photo.jpg" data-src="/assets/backend/images/empty-photo.jpg" alt="">
-                                    </div>
-                                    <div class="fileinput-preview fileinput-exists thumbnail" style="width: 150px; height: 150px;">
-                                        @if(old('image', isset($data) ? $data->image_banner : null)!="")
-                                            <img src="{{ old('image_banner', isset($data) ? \App\Library\Files::media($data->image_banner) : null) }}">
-                                            <input type="hidden" name="image_banner_oldest" value="1">
-                                        @endif
-                                    </div>
-                                    <div>
-                                    <span class="btn btn-default btn-file">
-                                        <span class="fileinput-new">Chọn ảnh banner</span>
-                                        <span class="fileinput-exists">Đổi ảnh banner</span>
-                                            <input type="file" name="image_banner">
-                                    </span>
-                                        <a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Xóa</a>
-                                    </div>
-                                </div>
-                                @if ($errors->has('image_banner'))
-                                    <span class="form-text text-danger">{{ $errors->first('image_banner') }}</span>
-                                @endif
-                            </div>
+                            @if ($errors->has('pdf'))
+                                <div class="text-danger mt-1">{{ $errors->first('pdf') }}</div>
+                            @endif
                         </div>
                     </div>
+                    {{--  File pdf--}}
                     <div class="form-group row">
                         <div class="col-md-12">
-                            <label class="mb-3" > {{__('Ảnh mở rộng')}} :</label>
-                            <br>
-                            @if (isset($data) && isset($data->image_extension) && $data->image_extension != null)
-                            <div class="fileinput-preview fileinput-exists thumbnail" >
-                                @foreach (json_decode($data->image_extension) as $item)
-                                        <img style="max-width: 150px; max-height: 150px;" src="{{ \App\Library\Files::media($item) }}">
-                                        @endforeach
-                                    </div>
-                                    <br>
-                            @endif
-                            <input id="input-b3" name="image_extension[]" type="file" class="file" multiple data-show-upload="false" data-show-caption="true" data-msg-placeholder="Chọn ảnh">
+                            <iframe id="pdfViewer" src="" frameborder="0" width="100%" height="600px"></iframe>
                         </div>
                     </div>
                 </div>
@@ -351,7 +208,6 @@
                         </h3>
                     </div>
                 </div>
-
                 <div class="card-body">
                     {{-- status --}}
                     <div class="form-group row">
@@ -362,7 +218,6 @@
                                 <div class="form-control-feedback">{{ $errors->first('status') }}</div>
                             @endif
                         </div>
-
                     </div>
                     {{-- created_at --}}
                     <div class="form-group row">
@@ -383,10 +238,7 @@
                                 <div class="form-control-feedback">{{ $errors->first('created_at') }}</div>
                             @endif
                         </div>
-
                     </div>
-
-
                     {{-- ended_at --}}
                     <div class="form-group row">
                         <div class="col-12 col-md-12">
@@ -411,10 +263,7 @@
                                 <div class="form-control-feedback">{{ $errors->first('created_at') }}</div>
                             @endif
                         </div>
-
                     </div>
-
-
                     {{-- order --}}
                     <div class="form-group row">
                         <div class="col-12 col-md-12">
@@ -431,343 +280,6 @@
             </div>
         </div>
     </div>
-    {{--Cấu hình giá bán--}}
-    <div class="row">
-        <div class="col-lg-9">
-            <div class="card card-custom gutter-b">
-                <div class="card-header">
-                    <div class="card-title">
-                        <h3 class="card-label">
-                            {{__('Cấu hình giá bán')}} <i class="mr-2"></i>
-                            <span class="d-block text-muted pt-2 font-size-sm">{{__("Thiết lập giá bán và % giảm giá")}}</span>
-                        </h3>
-                    </div>
-
-                </div>
-
-                <div class="card-body">
-
-                    <div class="form-group row">
-                        {{-- price_old --}}
-                        <div class="col-12 col-md-4">
-                            <label  class="form-control-label">{{ __('Giá bán (đ)') }}</label>
-                            <input type="text" id="price_old"  name="price_old" value="{{ old('price_old', isset($data) ? $data->price_old : null) }}"
-                                   placeholder="{{ __('Giá bán (đ)') }}"
-                                   class="form-control input-price {{ $errors->has('url') ? ' is-invalid' : '' }}">
-                            @if($errors->has('price_old'))
-                                <div class="form-control-feedback">{{ $errors->first('price_old') }}</div>
-                            @endif
-                        </div>
-                        {{-- percent_sale --}}
-                        <div class="col-12 col-md-4">
-                            <label  class="form-control-label">{{ __('Giảm giá (%)') }}</label>
-                            <input type="text" id="percent_sale"  name="percent_sale" value="{{ old('percent_sale', isset($data) ? $data->percent_sale : null) }}"
-                                   placeholder="{{ __('Giảm giá (%)') }}" maxlength="3"
-                                   class="form-control {{ $errors->has('percent_sale') ? ' is-invalid' : '' }}">
-                            @if($errors->has('percent_sale'))
-                                <div class="form-control-feedback">{{ $errors->first('percent_sale') }}</div>
-                            @endif
-                        </div>
-                        {{-- price --}}
-                        <div class="col-12 col-md-4">
-                            <label  class="form-control-label">{{ __('Giá khuyến mãi (giá bán còn lại) (đ)') }}</label>
-                            <input type="text" id="price"  name="price" value="{{ old('price', isset($data) ? $data->price : null) }}"
-                                   placeholder="{{ __('Giá khuyến mãi (giá bán còn lại) (đ)') }}"
-                                   class="form-control input-price {{ $errors->has('price') ? ' is-invalid' : '' }}">
-                            @if($errors->has('price'))
-                                <div class="form-control-feedback">{{ $errors->first('price') }}</div>
-                            @endif
-                        </div>
-                    </div>
-
-
-                </div>
-            </div>
-        </div>
-
-    </div>
-
-    {{--Cấu hình thuộc tính--}}
-    <div class="row">
-        <div class="col-lg-9">
-            <div class="card card-custom gutter-b">
-                <div class="card-header">
-                    <div class="card-title">
-                        <h3 class="card-label">
-                            {{__('Cấu hình thuộc tính')}} <i class="mr-2"></i>
-                            <span class="d-block text-muted pt-2 font-size-sm">{{__("Thiết lập thuộc tính")}}</span>
-                        </h3>
-                    </div>
-                </div>
-                <div class="card-body">
-                    @if (isset($attribute) && count($attribute) > 0)
-                        @if (isset($data))
-                            @php
-                                $content_attribute = null;
-                            @endphp
-                            @foreach ($attribute as $item)
-                                @if (isset($list_attribute_item[$item->id]))
-                                <div class="form-attribute" id="attribute_{{$item->id}}">
-                                    <div class="content-attribute">
-                                        @foreach ($list_attribute_item[$item->id] as $item_list)
-                                            @php
-                                                $random_data = rand(100000,999999);
-                                            @endphp
-                                            <div class="content-item-attribute-{{$item->id.$random_data}}">
-                                                <div class="form-group row">
-                                                    <label class="col-2 col-form-label">{{$item->title}}</label>
-                                                    <div class="col-8">
-                                                        <input class="form-control" type="text" placeholder="Vui lòng nhập thuộc tính.." name="attribute[{{$item->id}}][]" value="{{$item_list}}">
-                                                    </div>
-                                                    <div div class="col-2 btn_attribute_delete" style="cursor: pointer" data-prd="{{$item->id.$random_data}}" data-attribute="{{$item->id}}">
-                                                        <i class="icon-2x text-dark-50 flaticon-delete"></i>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        @endforeach
-                                    </div>
-                                    <div class="d-flex justify-content-center">
-                                        <button style="width:30%" type="button" class="btn btn-secondary btn-block btn_add_attribute" data-attribute="{{$item->id}}" data-title="{{$item->title}}">Thêm</button>
-                                    </div>
-                                </div>
-                                @else
-                                    <div class="form-attribute" id="attribute_{{$item->id}}">
-                                        <div class="content-attribute">
-                                            <div class="content-item-attribute-{{$item->id}}">
-                                                <div class="form-group row">
-                                                    <label class="col-2 col-form-label">{{$item->title}}</label>
-                                                    <div class="col-8">
-                                                        <input class="form-control" type="text" placeholder="Vui lòng nhập thuộc tính.." name="attribute[{{$item->id}}][]" value="{{$content_attribute}}">
-                                                    </div>
-                                                    <div div class="col-2 btn_attribute_delete" style="cursor: pointer" data-prd="{{$item->id}}" data-attribute="{{$item->id}}">
-                                                        <i class="icon-2x text-dark-50 flaticon-delete"></i>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex justify-content-center">
-                                            <button style="width:30%" type="button" class="btn btn-secondary btn-block btn_add_attribute" data-attribute="{{$item->id}}" data-title="{{$item->title}}">Thêm</button>
-                                        </div>
-                                    </div>
-                                @endif
-                            @endforeach
-                        @else
-                            @foreach ($attribute as $item)
-                                <div class="form-attribute" id="attribute_{{$item->id}}">
-                                    <div class="content-attribute">
-                                        <div class="content-item-attribute-{{$item->id}}">
-                                            <div class="form-group row">
-                                                <label class="col-2 col-form-label">{{$item->title}}</label>
-                                                <div class="col-8">
-                                                    <input class="form-control" type="text" placeholder="Vui lòng nhập thuộc tính.." name="attribute[{{$item->id}}][]" value="">
-                                                </div>
-                                                <div div class="col-2 btn_attribute_delete" style="cursor: pointer" data-prd="{{$item->id}}" data-attribute="{{$item->id}}">
-                                                    <i class="icon-2x text-dark-50 flaticon-delete"></i>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex justify-content-center">
-                                        <button style="width:30%" type="button" class="btn btn-secondary btn-block btn_add_attribute" data-attribute="{{$item->id}}" data-title="{{$item->title}}">Thêm</button>
-                                    </div>
-                                </div>
-                            @endforeach
-                        @endif
-                    @endif
-                </div>
-            </div>
-        </div>
-    </div>
-    {{--Cấu hình khuyến mại--}}
-    <div class="row">
-        <div class="col-lg-9">
-            <div class="card card-custom gutter-b">
-                <div class="card-header">
-                    <div class="card-title">
-                        <h3 class="card-label">
-                            {{__('Cấu hình khuyến mại')}} <i class="mr-2"></i>
-                            <span class="d-block text-muted pt-2 font-size-sm">{{__("Thiết lập khuyến mại cho sản phẩm")}}</span>
-                        </h3>
-                    </div>
-                </div>
-                <div class="card-body">
-                    @if (isset($promotion) && isset($promotion))
-                        <div class="form-attribute" id="promotion">
-                            <div class="content-item-promotion">
-                                @foreach ($promotion as $key => $item)
-                                    <div class="form-group row item-promotion-{{$key}}">
-                                        <div class="col-10">
-                                            <input class="form-control" type="text" placeholder="Vui lòng nhập khuyến mại" name="promotion[]" value="{{$item}}">
-                                        </div>
-                                        <div div="" class="col-2 btn_promotion_delete" data-promotion={{$key}} style="cursor: pointer">
-                                            <i class="icon-2x text-dark-50 flaticon-delete"></i>
-                                        </div>
-                                    </div>
-                                @endforeach
-                            </div>
-                            <div class="d-flex justify-content-center">
-                            <button style="width:30%" type="button" class="btn btn-secondary btn-block btn_add_promotion">Thêm</button>
-                            </div>
-                        </div>
-                    @else
-                        <div class="form-attribute" id="promotion">
-                            <div class="content-item-promotion">
-                                <div class="form-group row ">
-                                <div class="col-10">
-                                    <input class="form-control" type="text" placeholder="Vui lòng nhập khuyến mại" name="promotion[]" value="">
-                                </div>
-                                <div div="" class="col-2 btn_promotion_delete" style="cursor: pointer">
-                                    <i class="icon-2x text-dark-50 flaticon-delete"></i>
-                                </div>
-                                </div>
-                            </div>
-                            <div class="d-flex justify-content-center">
-                            <button style="width:30%" type="button" class="btn btn-secondary btn-block btn_add_promotion">Thêm</button>
-                            </div>
-                        </div>
-                    @endif
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-    {{--Thông tin khác--}}
-    @if(config('module.'.$module.'.params_field') )
-    <div class="row">
-        <div class="col-lg-9">
-            <div class="card card-custom gutter-b">
-                <div class="card-header">
-                    <div class="card-title">
-                        <h3 class="card-label">
-                            {{__('Thông tin mở rộng')}} <i class="mr-2"></i>
-                            <span class="d-block text-muted pt-2 font-size-sm">{{__("Thiết lập giá các thông tin mở rộng")}}</span>
-                        </h3>
-                    </div>
-
-                </div>
-
-                <div class="card-body">
-                    {{-- Lấy data từ params --}}
-                    @php
-                        $params= isset($data) ? $data->params : null
-                    @endphp
-                    @foreach(config('module.'.$module.'.params_field') as $key => $fields)
-
-                        {{--nếu nó là một phần tử thì set nó hẳn 1 row--}}
-                        @if( Arr::isAssoc($fields))
-
-                            {{--set chung cùng 1 biến để blade đọc--}}
-                            @php $field= $fields  @endphp
-                            <div class="form-group row">
-                                <div class="{{Arr::get($field,'div_parent_class')}}">
-                                    @includeIf('admin.module.__fields.' . Arr::get($field,'type') )
-                                </div>
-                            </div>
-                        {{--nếu nó là một nhóm phần tử thì set nó trong 1 row và điều chỉnh col--}}
-                        @else
-
-                            <div class="form-group row ">
-                                @foreach($fields as $key => $field)
-                                    <div class="{{Arr::get($field,'div_parent_class')}}">
-                                        @includeIf('admin.module.__fields.' . Arr::get($field,'type') )
-                                    </div>
-                                @endforeach
-                            </div>
-                        @endif
-                    @endforeach
-                </div>
-            </div>
-        </div>
-    </div>
-    @endif
-
-    {{--Tối ưu SEO--}}
-    <div class="row">
-        <div class="col-lg-9">
-            <div class="card card-custom gutter-b">
-                <div class="card-header">
-                    <div class="card-title">
-                        <h3 class="card-label">
-                            {{__('Tối ưu SEO')}} <i class="mr-2"></i>
-                            <span class="d-block text-muted pt-2 font-size-sm">{{__("Thiết lập các thẻ mô tả tối ưu nội dung tìm kiếm trên Google.")}}</span>
-                        </h3>
-                    </div>
-
-                </div>
-
-                <div class="card-body">
-                    {{-----seo_title------}}
-                    <div class="form-group row">
-                        <div class="col-12 col-md-12">
-                            <label>{{ __('Tiêu đề Trang (<title>)') }}</label>
-                            <input type="text" id="seo_title" name="seo_title" value="{{ old('seo_title', isset($data) ? $data->seo_title : null) }}"
-                                   placeholder=""
-                                   class="form-control {{ $errors->has('seo_title') ? ' is-invalid' : '' }}">
-                            @if ($errors->has('seo_title'))
-                                <span class="form-text text-danger">{{ $errors->first('seo_title') }}</span>
-                            @endif
-                        </div>
-
-                    </div>
-
-                    {{-----seo_description------}}
-                    <div class="form-group row">
-                        <div class="col-12 col-md-12">
-
-                            <label>{{ __('Mô Tả Trang ( <meta Description> )') }}</label>
-                            <input type="text" id="seo_description" name="seo_description" value="{{ old('seo_description', isset($data) ? $data->seo_description : null) }}"
-                                   placeholder=""
-                                   class="form-control {{ $errors->has('seo_description') ? ' is-invalid' : '' }}">
-                            @if ($errors->has('seo_description'))
-                                <span class="form-text text-danger">{{ $errors->first('seo_description') }}</span>
-                            @endif
-                        </div>
-
-                    </div>
-
-                    {{-----seo_keyword------}}
-                    <div class="form-group row">
-                        <div class="col-12 col-md-12">
-
-                            <label>{{ __('Từ khóa ( <meta Keyword> )') }}</label>
-                            <input type="text" id="seo_keyword" name="seo_keyword" value="{{ old('seo_keyword', isset($data) ? $data->seo_keyword : null) }}"
-                                   placeholder=""
-                                   class="form-control {{ $errors->has('seo_keyword') ? ' is-invalid' : '' }}">
-                            @if ($errors->has('seo_keyword'))
-                                <span class="form-text text-danger">{{ $errors->first('seo_keyword') }}</span>
-                            @endif
-                        </div>
-
-                    </div>
-
-                    <fieldset class="content-group">
-                        <legend class="text-bold" style="border-bottom: 1px solid #e5e5e5;font-size: 15px;padding-bottom: 10px;margin-bottom: 10px">Khi lên top, page này sẽ hiển thị như sau:</legend>
-                        <div class="form-group">
-                            <h3 id="google_title" class="title_google" style="color:#1a0dab;font-size: 18px;font-family: arial,sans-serif;padding:0;margin: 0;">{{ old('title', isset($data) ? $data->title : null) }}</h3>
-                            <div style="color:#006621;font-size: 14px;font-family: arial,sans-serif;">
-                                <span class="prefix_url">{{Request::getSchemeAndHttpHost()}}/</span><span id="google_slug" class="google_slug">{{ old('slug', isset($data) ? $data->slug : null) }}</span>
-                            </div>
-                            <div id="google_description" class="google_description" style="color: #545454;font-size: small;font-family: arial,sans-serif;">{{ old('description', isset($data) ? $data->description : null) !=""??"Mô tả seo website không vượt quá 160 kí tự. Là những đoạn mô tả ngắn gọn về website, bài viết..." }}</div>
-                        </div>
-                    </fieldset>
-
-
-                    {{-----seo_robots------}}
-                    <div class="form-group row">
-                        <div class="col-12 col-md-12">
-                            <label>{{ __('Index, Follow') }}</label>
-                            <span class="switch switch-outline switch-icon switch-success">
-                                <label><input type="checkbox" checked /><span></span></label>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    </div>
-
     {{ Form::close() }}
 
 @endsection
@@ -795,10 +307,22 @@
     <script src='https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.4.2/Sortable.js'></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/4.3.5/js/fileinput.min.js'></script>
     <script>
-
-
         "use strict";
         $(document).ready(function () {
+            $('#pdfInput').on('change', function () {
+                var fileName = $(this).val().split('\\').pop();
+                if (fileName) {
+                    $('#fileNameText').text(fileName);
+                    $('#pdfFileName').show();
+                } else {
+                    $('#pdfFileName').hide();
+                }
+            });
+            $('.pdf-link').on('click', function(e) {
+                e.preventDefault(); // Ngăn chặn hành vi mặc định của liên kết
+                var filePath = $(this).data('file'); // Lấy đường dẫn file từ thuộc tính data-file
+                $('#pdfViewer').attr('src', filePath).show(); // Đặt src cho iframe và hiển thị nó
+            });
             //btn submit form
             $('.btn-submit-custom').click(function (e) {
                 e.preventDefault();
@@ -812,8 +336,6 @@
                 var formSubmit = $('#' + $(btn).data('form'));
                 formSubmit.submit();
             });
-
-
             $('.ckeditor-source').each(function () {
                 var elem_id=$(this).prop('id');
                 var height=$(this).data('height');
@@ -825,7 +347,6 @@
                 else{
                     startupMode="wysiwyg";
                 }
-
                 CKEDITOR.replace(elem_id, {
                     filebrowserBrowseUrl     : "{{ route('admin.ckfinder_browser') }}?_token={{csrf_token()}}",
                     filebrowserImageBrowseUrl: "{{ route('admin.ckfinder_browser') }}?type=Images&_token={{csrf_token()}}",
@@ -853,7 +374,6 @@
                     removeButtons: 'Source',
                 } );
             });
-
             // Image choose item
             $(".ck-popup").click(function (e) {
                 e.preventDefault();
@@ -886,9 +406,7 @@
                 var elemInput = parent.find('.ck-input');
                 elemThumb.attr("src", "/assets/backend/themes/images/empty-photo.jpg");
                 elemInput.val("");
-
             });
-
             // Image extenstion choose item
             $(".ck-popup-multiply").click(function (e) {
                 e.preventDefault();
@@ -900,7 +418,6 @@
                     resourceType: 'Images',
                     chooseFiles: true,
                     width: 900,
-
                     height: 600,
                     onInit: function (finder) {
                         finder.on('files:choose', function (evt) {
@@ -944,7 +461,6 @@
                                 var len = allImageChoose.length;
                                 allImageChoose.each(function (index, obj) {
                                     allPath += $(this).attr('src');
-
                                     if (index != len - 1) {
                                         allPath += "|";
                                     }
@@ -973,15 +489,12 @@
                     }
                 });
             });
-
             //remove image extension each item
             $('.btn_delete_image').click(function (e) {
-
                 var parent = $(this).closest('.ck-parent');
                 var elemInput = parent.find('.image_input_text');
                 $(this).closest('.image-preview-box').remove();
                 var allImageChoose=parent.find(".image-preview-box img");
-
                 var allPath = "";
                 var len = allImageChoose.length;
                 allImageChoose.each(function (index, obj) {
@@ -993,11 +506,8 @@
                 });
                 elemInput.val(allPath);
             });
-
-
             //khoi tao sortable
             $('.sortable').sortable().bind('sortupdate', function (e, ui) {
-
                 var parent = $(this).closest('.ck-parent');
                 var allImageChoose=parent.find(".image-preview-box img");
                 var elemInput = parent.find('.image_input_text');
@@ -1012,21 +522,16 @@
                 });
                 elemInput.val(allPath);
             });
-
-
             //ckfinder for upload file
             $(".ck-popup-file").click(function (e) {
                 e.preventDefault();
                 var parent = $(this).closest('.ck-parent');
-
-
                 var elemInput = parent.find('.ck-input');
                 var elemBtnRemove = parent.find('.ck-btn-remove');
                 CKFinder.modal({
                     connectorPath: '{{route('admin.ckfinder_connector')}}',
                     resourceType: 'Files',
                     chooseFiles: true,
-
                     width: 900,
                     height: 600,
                     onInit: function (finder) {
@@ -1040,22 +545,22 @@
                 });
             });
             $(".file-preview-thumbnails").draggable({
-            scroll: false,
-            axis: "x",
-            containment: "parent",
-            revert: true,
-            helper: "orginal",
-            disable: false,
-            start: function( event, ui ) {
-                $(ui.item).addClass("active-draggable");
-            },
-            drag: function( event, ui ) {
-            },
-            stop:function( event, ui ) {
-                $(ui.item).removeClass("active-draggable");
-            }
+                scroll: false,
+                axis: "x",
+                containment: "parent",
+                revert: true,
+                helper: "orginal",
+                disable: false,
+                start: function( event, ui ) {
+                    $(ui.item).addClass("active-draggable");
+                },
+                drag: function( event, ui ) {
+                },
+                stop:function( event, ui ) {
+                    $(ui.item).removeClass("active-draggable");
+                }
             });
-                 
+
             $( ".file-preview" ).droppable({
                 accept: ".file-preview-thumbnails",
                 class: {
@@ -1106,7 +611,7 @@
             $('#promotion .content-item-promotion .item-promotion-'+promotion).remove();
         })
     </script>
-    
+
 @endsection
 
 

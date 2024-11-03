@@ -4,7 +4,7 @@
 {{-- Content --}}
 @section('content')
 @role('admin')
-@php 
+@php
 $year = Carbon\Carbon::now()->year;
 $month = Carbon\Carbon::now()->month;
 @endphp
@@ -12,7 +12,7 @@ $month = Carbon\Carbon::now()->month;
     <div class="col-xl-6">
         <div class="card card-custom card-stretch gutter-b">
             <div class="card-header border-0">
-                <h3 class="card-title font-weight-bolder text-dark">Sản phẩm được xem nhiều nhất</h3>
+                <h3 class="card-title font-weight-bolder text-dark">Văn bản được xem nhiều nhất</h3>
                 <hr>
             </div>
             <div class="card-body pt-2" style="max-height:500px;overflow:auto">
@@ -95,88 +95,6 @@ $month = Carbon\Carbon::now()->month;
         <div class="card card-custom gutter-b">
             <div class="card-header">
                 <div class="card-title">
-                    <h3>Thống kê đơn hàng</h3>
-                </div>
-                <div class="card-toolbar">
-                    <form action="" method="POST" class="d-flex justify-content-center">
-                        {{ csrf_field() }}
-                        <div class="example-tools justify-content-center mr-3">
-                            <select class="form-control form-control-sm" name="year" id="order_year">
-                                <option value="{{$year}}">{{$year}}</option>
-                                <option value="{{$year - 1}}">{{$year - 1}}</option>
-                                <option value="{{$year - 2}}">{{$year - 2}}</option>
-                                <option value="{{$year - 3}}">{{$year - 3}}</option>
-                                <option value="{{$year - 4}}">{{$year - 4}}</option>
-                            </select>
-                        </div>
-                        <div class="example-tools justify-content-center">
-                            <select class="form-control form-control-sm" name="month" id="order_month">
-                                @for ($i = 1; $i <= 12; $i++)
-                                    <option value="{{$i}}" @if ($i == $month)
-                                        selected
-                                    @endif
-                                    > Tháng {{$i}}</option>
-                                @endfor
-                            </select>
-                        </div>
-                        <div class="example-tools">
-                            <button type="submit" class="btn btn-light-primary font-weight-bold ml-2 form-control form-control-sm">Xuất</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-            <div class="card-body">
-                <div id="order"></div>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="row">
-    <div class="col-lg-12">
-        <div class="card card-custom gutter-b">
-            <div class="card-header">
-                <div class="card-title">
-                    <h3>Doanh thu</h3>
-                </div>
-                <div class="card-toolbar">
-                    <form action="" method="POST" class="d-flex justify-content-center">
-                        {{ csrf_field() }}
-                        <div class="example-tools justify-content-center mr-3">
-                            <select class="form-control form-control-sm" name="year" id="order_price_year">
-                                <option value="{{$year}}">{{$year}}</option>
-                                <option value="{{$year - 1}}">{{$year - 1}}</option>
-                                <option value="{{$year - 2}}">{{$year - 2}}</option>
-                                <option value="{{$year - 3}}">{{$year - 3}}</option>
-                                <option value="{{$year - 4}}">{{$year - 4}}</option>
-                            </select>
-                        </div>
-                        <div class="example-tools justify-content-center">
-                            <select class="form-control form-control-sm" name="month" id="order_price_month">
-                                @for ($i = 1; $i <= 12; $i++)
-                                    <option value="{{$i}}" @if ($i == $month)
-                                        selected
-                                    @endif
-                                    > Tháng {{$i}}</option>
-                                @endfor
-                            </select>
-                        </div>
-                        <div class="example-tools">
-                            <button type="submit" class="btn btn-light-primary font-weight-bold ml-2 form-control form-control-sm">Xuất</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-            <div class="card-body">
-                <div id="order_price"></div>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="row">
-    <div class="col-lg-12">
-        <div class="card card-custom gutter-b">
-            <div class="card-header">
-                <div class="card-title">
                     <h3>Tăng trưởng thành viên</h3>
                 </div>
                 <div class="card-toolbar">
@@ -233,7 +151,7 @@ $month = Carbon\Carbon::now()->month;
                             enabled: false
                         }
                     },
-                    dataLabels: { 	
+                    dataLabels: {
                         enabled: false
                     },
                     stroke: {
@@ -291,7 +209,7 @@ $month = Carbon\Carbon::now()->month;
                         return false;
                 },
                 complete: function (data) {
-                    
+
                 }
             });
         }
@@ -394,81 +312,11 @@ $month = Carbon\Carbon::now()->month;
                         return false;
                 },
                 complete: function (data) {
-                    
+
                 }
             });
         }
-         // setup biểu đồ doanh thu
-         var ChartsOrderPrice = function () {
-            var order_price = function (growth,growth_day) {
-            const apexChart = "#order_price";
-            var options = {
-                series: [
-                    {
-                        name: 'Doanh thu',
-                        data: growth
-                    },
-                ],
-                chart: {
-                    height: 350,
-                    type: 'area'
-                },
-                dataLabels: {
-                    enabled: false
-                },
-                stroke: {
-                    curve: 'smooth'
-                },
-                xaxis: {
-                    categories: growth_day
-                },
-                colors: [success]
-            };
-            var chart = new ApexCharts(document.querySelector(apexChart), options);
-            chart.render();
-        }
-        return {
-                init: function (growth_0,growth_1,growth_2,growth_3,growth_4,growth_day) {
-                    order_price(growth_0,growth_1,growth_2,growth_3,growth_4,growth_day);
-                }
-            };
-        }();
-        function Order_Price(year,month){
-            $.ajax({
-                type: "GET",
-                url: "{{route('admin.growth.order-price')}}",
-                data:{
-                    year:year,
-                    month:month
-                },
-                beforeSend: function (xhr) {
-                },
-                success: function (data) {
-                    if(data.success == true){
-                        var growth = data.data.growth;
-                        growth = $.map(growth, function(value, index) {
-                            return [value];
-                        });
-                        var growth_day = data.data.growth_day;
-                        growth_day = $.map(growth_day, function(value, index) {
-                            return [value];
-                        });
-                        ChartsOrderPrice.init(growth,growth_day);
-                    }
-                    else{
-                        alert('Có lỗi xảy ra vui lòng liên hệ Admin để xử lý');
-                        return false;
-                    }
-                },
-                error: function (data) {
-                    alert('Có lỗi xảy ra vui lòng liên hệ Admin để xử lý');
-                        return false;
-                },
-                complete: function (data) {
-                    
-                }
-            });
-        }
+
         jQuery(document).ready(function () {
             GrowthUser();
             $('body').on('change','#growth_user_year',function(){
@@ -481,52 +329,7 @@ $month = Carbon\Carbon::now()->month;
                      }, 2000);
                 });
             })
-            Order();
-            $('body').on('change','#order_year',function(){
-                year = $(this).val();
-                month = $('#order__month').val();
-                $("#order").fadeOut(700,function(){
-                    $( "#order" ).load(window.location.href + " #order" );
-                    Order(Number(year),Number(month))
-                    setTimeout(function(){
-                        $("#order").fadeIn(700);
-                     }, 4000);
-                });
-            })
-            $('body').on('change','#order_month',function(){
-                month = $(this).val();
-                year = $('#order_year').val();
-                $("#v").fadeOut(700,function(){
-                    $( "#v" ).load(window.location.href + " #order" );
-                    Order(Number(year),Number(month))
-                    setTimeout(function(){
-                        $("#order").fadeIn(700);
-                    }, 4000);
-                });
-            })
-            Order_Price();
-            $('body').on('change','#order_price_year',function(){
-                year = $(this).val();
-                month = $('#order_price__month').val();
-                $("#order_price").fadeOut(700,function(){
-                    $( "#order_price" ).load(window.location.href + " #order_price" );
-                    Order_Price(Number(year),Number(month))
-                    setTimeout(function(){
-                        $("#order_price").fadeIn(700);
-                     }, 4000);
-                });
-            })
-            $('body').on('change','#order_price_month',function(){
-                month = $(this).val();
-                year = $('#order_price_year').val();
-                $("#order_price").fadeOut(700,function(){
-                    $( "#order_price" ).load(window.location.href + " #order_price" );
-                    Order_Price(Number(year),Number(month))
-                    setTimeout(function(){
-                        $("#order_price").fadeIn(700);
-                    }, 4000);
-                });
-            })
+
         });
     </script>
 

@@ -35,7 +35,6 @@ class GroupController extends Controller
         $this->middleware('permission:'. $this->module.'-edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:'. $this->module.'-delete', ['only' => ['destroy']]);
 
-
         if( $this->module!=""){
             $this->page_breadcrumbs[] = [
                 'page' => route('admin.'.$this->module.'.index'),
@@ -43,28 +42,21 @@ class GroupController extends Controller
             ];
         }
     }
-
-
     public function index(Request $request)
     {
         ActivityLog::add($request, 'Truy cập danh sách '.$this->module);
         if($request->ajax) {
             $datatable= Group::where('module','=',$this->module)->orderBy('order');
-
             if ($request->filled('group_id')) {
-
                 $datatable->whereHas('groups', function ($query) use ($request) {
                     $query->where('group_id',$request->get('group_id'));
                 });
             }
-
-
             if ($request->filled('id'))  {
                 $datatable->where(function($q) use($request){
                     $q->orWhere('id', 'LIKE', '%' . $request->get('id') . '%');
                 });
             }
-
             if ($request->filled('title'))  {
                 $datatable->where(function($q) use($request){
                     $q->orWhere('title', 'LIKE', '%' . $request->get('title') . '%');
@@ -73,20 +65,16 @@ class GroupController extends Controller
             if ($request->filled('position')) {
                 $datatable->where('position',$request->get('position') );
             }
-
             if ($request->filled('status')) {
                 $datatable->where('status',$request->get('status') );
             }
-
             if ($request->filled('started_at')) {
                 $datatable->where('created_at', '>=', Carbon::createFromFormat('d/m/Y H:i:s', $request->get('started_at')));
             }
             if ($request->filled('ended_at')) {
                 $datatable->where('created_at', '<=', Carbon::createFromFormat('d/m/Y H:i:s', $request->get('ended_at')));
             }
-
             return \datatables()->eloquent($datatable)
-
                 ->only([
                     'id',
                     'title',
@@ -100,8 +88,6 @@ class GroupController extends Controller
                     'action',
                     'created_at',
                 ])
-
-
                 ->editColumn('created_at', function($data) {
                     return date('d/m/Y H:i:s', strtotime($data->created_at));
                 })
@@ -119,7 +105,6 @@ class GroupController extends Controller
             ->with('page_breadcrumbs', $this->page_breadcrumbs)
             ->with('dataCategory', $dataCategory);
     }
-
     /**
      * Show the form for creating a new resource.
      *
@@ -131,15 +116,12 @@ class GroupController extends Controller
             'page' => '#',
             'title' => __("Thêm mới")
         ];
-
         $dataCategory = Group::where('module', '=', $this->moduleCategory)->orderBy('order','asc')->get();
-
         ActivityLog::add($request, 'Vào form create '.$this->module);
         return view('admin.product.group.create_edit')
             ->with('module', $this->module)
             ->with('page_breadcrumbs', $this->page_breadcrumbs)
             ->with('dataCategory', $dataCategory);
-
     }
 
     /**
@@ -155,10 +137,10 @@ class GroupController extends Controller
         ],[
             'title.required' => __('Vui lòng nhập tiêu đề'),
         ]);
-        $input=$request->all();
-        $input['module']=$this->module;
-        $input['author_id']=auth()->user()->id;
-        $data=Group::create($input);
+        $input = $request->all();
+        $input['module'] = $this->module;
+        $input['author_id'] = auth()->user()->id;
+        $data = Group::create($input);
 
         //set category
         if( isset($input['group_id'] ) &&  $input['group_id']!=0){
@@ -198,7 +180,6 @@ class GroupController extends Controller
         ];
         $data = Group::where('module', '=', $this->module)->findOrFail($id);
         $dataCategory = Group::where('module', '=', $this->moduleCategory)->orderBy('order','asc')->get();
-
         ActivityLog::add($request, 'Vào form edit '.$this->module.' #'.$data->id);
         return view('admin.product.group.create_edit')
             ->with('module', $this->module)
@@ -216,9 +197,7 @@ class GroupController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //return $request->all();
         $data =  Group::where('module', '=', $this->module)->findOrFail($id);
-
         $this->validate($request,[
             'title'=>'required',
         ],[
@@ -228,14 +207,6 @@ class GroupController extends Controller
         $input=$request->all();
         $input['module']=$this->module;
         $data->update($input);
-        //set category
-
-        // if( isset($input['group_id'] ) &&  $input['group_id']!=0){
-        //     $data->groups()->sync($input['group_id']);
-        // }
-        // else{
-        //     $data->groups()->sync([]);
-        // }
         ActivityLog::add($request, 'Cập nhật thành công '.$this->module.' #'.$data->id);
         if($request->filled('submit-close')){
             return redirect()->route('admin.'.$this->module.'.index')->with('success',__('Cập nhật thành công !'));
@@ -253,7 +224,15 @@ class GroupController extends Controller
      */
     public function destroy(Request $request,$id)
     {
-        $input=explode(',',$request->id);
+        $input = explode(',',$request->id);
+        Group::where('module','=',$this->module)->whereIn('id',$input)->update(['status' => 0]);
+        ActivityLog::add($request, 'Xóa thành công '.$this->module.' #'.json_encode($input));
+        return redirect()->back()->with('success',__('Xóa thành công !'));
+    }
+
+    public function delete(Request $request)
+    {
+        $input = explode(',',$request->group_delete_id);
         Group::where('module','=',$this->module)->whereIn('id',$input)->update(['status' => 0]);
         ActivityLog::add($request, 'Xóa thành công '.$this->module.' #'.json_encode($input));
         return redirect()->back()->with('success',__('Xóa thành công !'));
@@ -264,7 +243,6 @@ class GroupController extends Controller
         $field=$request->field;
         $value=$request->value;
         $whitelist=['status'];
-
         if(!in_array($field,$whitelist)){
             return response()->json([
                 'success'=>false,
@@ -275,9 +253,7 @@ class GroupController extends Controller
         $data=Item::where('module','=',$this->module)::whereIn('id',$input)->update([
             $field=>$value
         ]);
-
         ActivityLog::add($request, 'Cập nhật field thành công '.$this->module.' '.json_encode($whitelist).' #'.json_encode($input));
-
         return response()->json([
             'success'=>true,
             'message'=>__('Cập nhật thành công !'),
@@ -286,17 +262,13 @@ class GroupController extends Controller
 
     }
      // AJAX Reordering function
-     public function order(Request $request)
+    public function order(Request $request)
      {
- 
          $source = e($request->get('source'));
          $destination = $request->get('destination');
          $item = Group_Item_Index::find($source);
          $item->save();
- 
          $ordering = json_decode($request->get('order'));
- 
- 
          $rootOrdering = json_decode($request->get('rootOrder'));
          if ($ordering) {
              foreach ($ordering as $order => $item_id) {
@@ -317,20 +289,21 @@ class GroupController extends Controller
          ActivityLog::add($request, 'Thay đổi STT thành công '.$this->module.' #'.$item->id);
          return 'ok ';
      }
- 
- 
- 
- 
-     public function search(Request $request){
+     // Tìm kiếm danh sách văn bản
+    public function search(Request $request){
          $module = str_replace('-group','',$this->module);
          $group_id = $request->id;
-         $all_item_in_groups = Group_Item_Index::where('group_id',$group_id)->pluck('item_id');
+         $all_item_in_groups = Group_Item_Index::where('group_id',$group_id)
+                                ->where('type',$this->module)
+                                ->pluck('item_id');
+
          $datatable= Item::with(array('groups_items_index' => function ($query) {
              $query->where('module', $this->module);
              $query->select('groups_items_index.id','title');
          }))
          ->whereNotIn('id',$all_item_in_groups)
          ->where('module',$module)->where('status',1);
+
          if ($request->filled('find'))  {
              $datatable->where(function($q) use($request){
                  $q->orWhere('title', 'LIKE', '%' . $request->get('find') . '%');
@@ -338,14 +311,20 @@ class GroupController extends Controller
              });
          }
          $datatable=$datatable->paginate(10);
-         return view('admin.module.group.search')
+
+         return view('admin.product.group.search')
              ->with('datatable',$datatable)->render();
      }
- 
-     public function showItemGroup(Request $request){
+     // Xem sản phẩm trong danh sách
+    public function showItemGroup(Request $request){
          $id = $request->id;
          $module = $this->module;
-         $data = Group_Item_Index::with('item')->where('group_id',$id)->select('id','group_id','item_id','order')->orderBy('order','asc')->get();
+         // lấy thông tin
+         $data = Group_Item_Index::with('item')
+             ->where('group_id',$id)
+             ->where('type',$module)
+             ->select('id','group_id','item_id','order')
+             ->orderBy('order','asc')->get();
          return response()->json([
              'status' => 1,
              'id' => $id,
@@ -353,62 +332,70 @@ class GroupController extends Controller
              'data' => $data,
          ]);
      }
-     public function updateItemGroup(Request $request){
- 
+     // Cập nhập danh sách
+    public function updateItemGroup(Request $request){
          $id = $request->id;
          $group_id = $request->group_id;
- 
- 
-         // kiểm tra id
- 
+         $module = $this->module;
+
+         // kiểm tra item
          $item = Item::select('id','title')->where('id',$id)->select('id','title','price','description','status','order')->first();
- 
- 
          if(!$item){
              return response()->json([
                  'status' => 0,
                  'message' => "Bài viết không hợp lệ",
              ]);
          }
- 
          if($item->status == 0){
              return response()->json([
                  'status' => 0,
                  'message' => "Game không hoạt động",
              ]);
          }
- 
-         $group=Group::where('module','=',$this->module)->where('id',$group_id)->first();
- 
+
+         // Kiểm tra group
+         $group=Group::where('module','=',$module)->where('id',$group_id)->first();
          if(!$group){
              return response()->json([
                  'status' => 0,
                  'message' => "Dữ liệu group không hợp lệ",
              ]);
          }
- 
+
          // check xem group đã có item này hay chưa
-         $check = Group_Item_Index::where('group_id',$group->id)->where('item_id',$item->id)->first();
+         $check = Group_Item_Index::where('group_id',$group->id)
+                    ->where('item_id',$item->id)
+                    ->where('type', $module)
+                    ->first();
+
          if($check){
              return response()->json([
                  'status' => 0,
                  'message' => "Dữ liệu đã được ở trong nhóm",
              ]);
          }
- 
-         $data = Group_Item_Index::create([
+
+         Group_Item_Index::create([
              'group_id' => $group->id,
-             'item_id' => $item->id
+             'item_id' => $item->id,
+             'type' => $module,
          ]);
-         $group_item = Group_Item_Index::with('item')->where('group_id',$group_id)->where('item_id',$id)->select('id','group_id','item_id','order')->first();
+
+         $group_item = Group_Item_Index::with('item')
+                        ->where('group_id',$group_id)
+                        ->where('item_id',$id)
+                        ->select('id','group_id','item_id','order')
+                        ->where('type', $module)
+                        ->first();
          return response()->json([
              'status' => 1,
              'data' => $group_item,
          ]);
      }
- 
-     public function deleteItemGroup(Request $request){
+     // Xóa item trong danh sách
+    public function deleteItemGroup(Request $request){
          $id = $request->id;
+         // Kiểm tra id
          $group_item = Group_Item_Index::where('id',$id)->first();
          if(!$group_item){
              return response()->json([

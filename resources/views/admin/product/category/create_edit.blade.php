@@ -1,7 +1,6 @@
 {{-- Extends layout --}}
 @extends('admin._layouts.master')
 
-
 @section('action_area')
     <div class="d-flex align-items-center text-right">
         <a href="{{route('admin.'.$module.'.index')}}"
@@ -9,7 +8,6 @@
             <i class="ki ki-long-arrow-back icon-sm"></i>
             Back
         </a>
-
         <div class="btn-group">
             <button type="button" class="btn btn-success font-weight-bolder btn-submit-custom" data-form="formMain" data-submit-close="1">
                 <i class="ki ki-check icon-sm"></i>
@@ -18,7 +16,6 @@
                 @else
                     {{__('Thêm mới')}}
                 @endif
-
             </button>
             <button type="button" class="btn btn-success dropdown-toggle dropdown-toggle-split btn-submit-dropdown"
                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -37,16 +34,9 @@
                             </span>
                         </button>
                     </li>
-
                 </ul>
             </div>
         </div>
-
-
-
-
-
-
     </div>
 @endsection
 
@@ -59,7 +49,6 @@
         {{Form::open(array('route'=>array('admin.'.$module.'.store'),'method'=>'POST','id'=>'formMain','enctype'=>"multipart/form-data"))}}
     @endif
     <input type="hidden" name="submit-close" id="submit-close">
-
     <div class="row">
         <div class="col-lg-9">
             <div class="card card-custom gutter-b">
@@ -69,35 +58,30 @@
                             {{__($page_breadcrumbs[0]['title'])}} <i class="mr-2"></i>
                         </h3>
                     </div>
-
                 </div>
-
                 <div class="card-body">
+{{--                    --}}{{-----parent_id------}}
+{{--                    <div class="form-group row">--}}
+{{--                        <div class="col-12 col-md-6">--}}
+{{--                            <label>{{ __('Danh mục cha') }}</label>--}}
+{{--                            <select name="parent_id" class="form-control select2 col-md-5" id="kt_select2_2" style="width: 100%">--}}
+{{--                                <option value="0">-- {{__('Không chọn')}} --</option>--}}
+{{--                                @if( !empty(old('parent_id')) )--}}
+{{--                                    {!!\App\Library\Helpers::buildMenuDropdownList($dataCategory,old('parent_id')) !!}--}}
+{{--                                @else--}}
+{{--                                    <?php $itSelect = [] ?>--}}
+{{--                                    @if(isset($data))--}}
+{{--                                        <?php array_push($itSelect, $data->parent_id)?>--}}
+{{--                                    @endif--}}
+{{--                                    {!!\App\Library\Helpers::buildMenuDropdownList($dataCategory,$itSelect) !!}--}}
+{{--                                @endif--}}
+{{--                            </select>--}}
+{{--                            @if($errors->has('parent_id'))--}}
+{{--                                <div class="form-control-feedback">{{ $errors->first('parent_id') }}</div>--}}
+{{--                            @endif--}}
+{{--                        </div>--}}
 
-
-                    {{-----parent_id------}}
-                    <div class="form-group row">
-                        <div class="col-12 col-md-6">
-                            <label>{{ __('Danh mục cha') }}</label>
-                            <select name="parent_id" class="form-control select2 col-md-5" id="kt_select2_2" style="width: 100%">
-                                <option value="0">-- {{__('Không chọn')}} --</option>
-                                @if( !empty(old('parent_id')) )
-                                    {!!\App\Library\Helpers::buildMenuDropdownList($dataCategory,old('parent_id')) !!}
-                                @else
-                                    <?php $itSelect = [] ?>
-                                    @if(isset($data))
-                                        <?php array_push($itSelect, $data->parent_id)?>
-                                    @endif
-                                    {!!\App\Library\Helpers::buildMenuDropdownList($dataCategory,$itSelect) !!}
-                                @endif
-                            </select>
-                            @if($errors->has('parent_id'))
-                                <div class="form-control-feedback">{{ $errors->first('parent_id') }}</div>
-                            @endif
-                        </div>
-
-                    </div>
-
+{{--                    </div>--}}
 
                     {{-----title------}}
                     <div class="form-group row">
@@ -110,19 +94,14 @@
                                 <span class="form-text text-danger">{{ $errors->first('title') }}</span>
                             @endif
                         </div>
-
                     </div>
-
                     {{-----slug------}}
                     <div class="form-group row">
                         <div class="col-12 col-md-12">
                             <label>{{ __('Permalink') }}:</label>
-
                             <span class="">
                                 <a  id="permalink" class="permalink" target="_blank" href="{{Request::getSchemeAndHttpHost()}}/{{ old('slug', isset($data) ? $data->slug : null) }}">
-
                                 <span class="default-slug">{{Request::getSchemeAndHttpHost()}}/<span id="label-slug" data-override-edit="0">{{ old('slug', isset($data) ? $data->slug : null) }}</span></span>
-
                                 </a>
                                 <input type="text" value=""  class="form-control" id="input-slug-edit" style="width: auto !important;display: none"/>
                                 <a  class="btn btn-light-primary font-weight-bolder mr-2" id="btn-slug-edit">Chỉnh sửa</a>
@@ -145,7 +124,6 @@
                             @endif
                         </div>
                     </div>
-
                     {{-----content------}}
                     <div class="form-group row">
                         <div class="col-12 col-md-12">
@@ -156,7 +134,6 @@
                             @endif
                         </div>
                     </div>
-
                     {{-- target --}}
                     <div class="form-group row">
                         <div class="col-12 col-md-4">
@@ -212,13 +189,6 @@
 							<div class="form-control-feedback">{{ $errors->first('image') }}</div>
 						@endif
 					</div>
-                    {{-- <div class="form-group m-form__group">
-                        <label for="dataAttribute" class="form-control-label">{{ __('Thuộc tính:') }}</label>
-                        <br />
-                        <div class="attribute-box" style="height: 240px">
-                            {!! $dataAttribute !!}
-                        </div>
-                    </div> --}}
                 </div>
             </div>
         </div>
@@ -263,10 +233,7 @@
                                 <div class="form-control-feedback">{{ $errors->first('created_at') }}</div>
                             @endif
                         </div>
-
                     </div>
-
-
                     {{-- ended_at --}}
                     <div class="form-group row">
                         <div class="col-12 col-md-12">
@@ -296,7 +263,6 @@
                     {{-- order --}}
                     <div class="form-group row">
                         <div class="col-12 col-md-12">
-
                             <label for="order">{{ __('Thứ tự') }}</label>
                             <input type="text" name="order" value="{{ old('order', isset($data) ? $data->order : null) }}"
                                    placeholder="{{ __('Thứ tự') }}"
@@ -305,101 +271,14 @@
                                 <span class="form-text text-danger">{{ $errors->first('order') }}</span>
                             @endif
                         </div>
-
                     </div>
-
-
-
-                </div>
-            </div>
-
-
-        </div>
-    </div>
-
-
-    {{--Tối ưu SEO--}}
-    <div class="row">
-        <div class="col-lg-9">
-            <div class="card card-custom gutter-b">
-                <div class="card-header">
-                    <div class="card-title">
-                        <h3 class="card-label">
-                            {{__('Tối ưu SEO')}} <i class="mr-2"></i>
-                            <span class="d-block text-muted pt-2 font-size-sm">{{__("Thiết lập các thẻ mô tả tối ưu nội dung tìm kiếm trên Google.")}}</span>
-                        </h3>
-                    </div>
-
-                </div>
-
-                <div class="card-body">
-                    {{-----seo_title------}}
-                    <div class="form-group row">
-                        <div class="col-12 col-md-12">
-                            <label>{{ __('Tiêu đề Trang (<title>)') }}</label>
-                            <input type="text" id="seo_title" name="seo_title" value="{{ old('seo_title', isset($data) ? $data->seo_title : null) }}"
-                                   placeholder=""
-                                   class="form-control {{ $errors->has('seo_title') ? ' is-invalid' : '' }}">
-                            @if ($errors->has('seo_title'))
-                                <span class="form-text text-danger">{{ $errors->first('seo_title') }}</span>
-                            @endif
-                        </div>
-
-                    </div>
-
-                    {{-----seo_description------}}
-                    <div class="form-group row">
-                        <div class="col-12 col-md-12">
-
-                            <label>{{ __('Mô Tả Trang ( <meta Description> )') }}</label>
-                            <input type="text" id="seo_description" name="seo_description" value="{{ old('seo_description', isset($data) ? $data->seo_description : null) }}"
-                                   placeholder=""
-                                   class="form-control {{ $errors->has('seo_description') ? ' is-invalid' : '' }}">
-                            @if ($errors->has('seo_description'))
-                                <span class="form-text text-danger">{{ $errors->first('seo_description') }}</span>
-                            @endif
-                        </div>
-
-                    </div>
-
-                    <fieldset class="content-group">
-                        <legend class="text-bold" style="border-bottom: 1px solid #e5e5e5;font-size: 15px;padding-bottom: 10px;margin-bottom: 10px">Khi lên top, page này sẽ hiển thị như sau:</legend>
-                        <div class="form-group">
-                            <h3 id="google_title" class="title_google" style="color:#1a0dab;font-size: 18px;font-family: arial,sans-serif;padding:0;margin: 0;">{{ old('title', isset($data) ? $data->title : null) }}</h3>
-                            <div style="color:#006621;font-size: 14px;font-family: arial,sans-serif;">
-                                <span class="prefix_url">{{Request::getSchemeAndHttpHost()}}/</span><span id="google_slug" class="google_slug">{{ old('slug', isset($data) ? $data->slug : null) }}</span>
-                            </div>
-                            <div id="google_description" class="google_description" style="color: #545454;font-size: small;font-family: arial,sans-serif;">{{ old('description', isset($data) ? $data->description : null) !=""??"Mô tả seo website không vượt quá 160 kí tự. Là những đoạn mô tả ngắn gọn về website, bài viết..." }}</div>
-                        </div>
-                    </fieldset>
-
-
-                    {{-----seo_robots------}}
-                    <div class="form-group row">
-                        <div class="col-12 col-md-12">
-                            <label>{{ __('Index, Follow') }}</label>
-                            <span class="switch switch-outline switch-icon switch-success">
-                                <label><input type="checkbox" checked /><span></span></label>
-                            </span>
-                        </div>
-
-                    </div>
-
-                    <div class="test-fuck">
-                      {!!  clean( old('content', isset($data) ? $data->content : null)) !!}
-                    </div>
-
-
                 </div>
             </div>
         </div>
-
     </div>
-
     {{ Form::close() }}
 
 @endsection
-
 {{-- Styles Section --}}
 @section('styles')
 
@@ -422,14 +301,10 @@
                 var formSubmit = $('#' + $(btn).data('form'));
                 formSubmit.submit();
             });
-
         });
 
     </script>
     <script>
-
-
-
         $('.ckeditor-source').each(function () {
             var elem_id=$(this).prop('id');
             var height=$(this).data('height');
@@ -453,7 +328,6 @@
                 startupMode:startupMode,
             } );
         });
-
         $('.ckeditor-basic').each(function () {
             var elem_id=$(this).prop('id');
             var height=$(this).data('height');
@@ -469,13 +343,10 @@
                 removeButtons: 'Source',
             } );
         });
-
-
         // Image choose item
         $(".ck-popup").click(function (e) {
             e.preventDefault();
             var parent = $(this).closest('.ck-parent');
-
             var elemThumb = parent.find('.ck-thumb');
             var elemInput = parent.find('.ck-input');
             var elemBtnRemove = parent.find('.ck-btn-remove');
@@ -483,7 +354,6 @@
                 connectorPath: '{{route('admin.ckfinder_connector')}}',
                 resourceType: 'Images',
                 chooseFiles: true,
-
                 width: 900,
                 height: 600,
                 onInit: function (finder) {
@@ -499,29 +369,22 @@
         });
         $(".ck-btn-remove").click(function (e) {
             e.preventDefault();
-
             var parent = $(this).closest('.ck-parent');
-
             var elemThumb = parent.find('.ck-thumb');
             var elemInput = parent.find('.ck-input');
             elemThumb.attr("src", "/assets/backend/themes/images/empty-photo.jpg");
             elemInput.val("");
         });
-
-
         //ckfinder for upload file
         $(".ck-popup-file").click(function (e) {
             e.preventDefault();
             var parent = $(this).closest('.ck-parent');
-
-
             var elemInput = parent.find('.ck-input');
             var elemBtnRemove = parent.find('.ck-btn-remove');
             CKFinder.modal({
                 connectorPath: '{{route('admin.ckfinder_connector')}}',
                 resourceType: 'Files',
                 chooseFiles: true,
-
                 width: 900,
                 height: 600,
                 onInit: function (finder) {
@@ -534,8 +397,6 @@
                 }
             });
         });
-
-
     </script>
 @endsection
 

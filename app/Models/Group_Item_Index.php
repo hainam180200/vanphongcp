@@ -18,6 +18,7 @@ class Group_Item_Index extends BaseModel
         'group_id',
         'item_id',
         'order',
+        'type',
     ];
 
     public static function  MappingTable(){
